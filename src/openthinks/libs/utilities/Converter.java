@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * convert help
+ * convert helper
  * 
  * @author dailey_dai
  * 
@@ -59,8 +59,7 @@ public final class Converter {
 		} else if (targetType == String.class) {
 			return String.valueOf(source);
 		} else {
-			throw new IllegalArgumentException(targetType
-					+ " is not primitive type.");
+			throw new IllegalArgumentException(targetType + " is not primitive type.");
 		}
 	}
 
@@ -84,8 +83,7 @@ public final class Converter {
 		}
 		if (isArray()) {
 			if (Array.getLength(source) <= 0)
-				throw new IllegalArgumentException(
-						"The origial converted array must not be empty.");
+				throw new IllegalArgumentException("The origial converted array must not be empty.");
 			_source = Array.get(source, 0);
 		}
 		return (T) convertTo(_source.toString(), clazz);
@@ -124,8 +122,7 @@ public final class Converter {
 	 */
 	protected <T> Object _convertToArray(Class<T> clazz) {
 		if (!isArray()) {
-			throw new IllegalArgumentException(
-					"The origial converted is not array.");
+			throw new IllegalArgumentException("The origial converted is not array.");
 		}
 
 		int length = Array.getLength(source);

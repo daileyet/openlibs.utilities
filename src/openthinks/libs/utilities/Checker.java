@@ -41,19 +41,14 @@ public class Checker {
 		return new Requirer<T>(requireObject);
 	}
 
-	
-	public static void main(String[] args) {
-		Checker.require(null).notNull("test");
-	}
-	
-	public static boolean isArray(Object checkObj){
-		try{
+	public static boolean isArray(Object checkObj) {
+		try {
 			Array.getLength(checkObj);
 			return true;
-		}catch(IllegalArgumentException e){
+		} catch (IllegalArgumentException e) {
 			return false;
 		}
-		
+
 	}
 
 	public static class Requirer<T> {
@@ -65,27 +60,27 @@ public class Checker {
 		}
 
 		public void notNull(String... args) {
-			
+
 			if (requireObject == null) {
-				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),CommonUtilities.toString4Array(args));
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),
+						CommonUtilities.toString4Array(args));
 			}
 		}
-		
-		
-		public void equalTo(T comparedObj){
-			if(requireObject==comparedObj){
+
+		public void equalTo(T comparedObj) {
+			if (requireObject == comparedObj) {
 				return;
 			}
-			if(requireObject!=null && requireObject.equals(comparedObj)){
+			if (requireObject != null && requireObject.equals(comparedObj)) {
 				return;
 			}
-			if(Checker.isArray(requireObject) && Checker.isArray(comparedObj)){
-				if(Arrays.deepEquals((Object[])requireObject,(Object[]) comparedObj)){
+			if (Checker.isArray(requireObject) && Checker.isArray(comparedObj)) {
+				if (Arrays.deepEquals((Object[]) requireObject, (Object[]) comparedObj)) {
 					return;
 				}
 			}
 			//TODO compare collection
-			
+
 			throw new CheckerNoPassException();
 		}
 
@@ -97,8 +92,8 @@ public class Checker {
 			if (clzz == null || requireObject.getClass() == null) {
 				throw new CheckerNoPassException();
 			} else if (!clzz.isAssignableFrom(requireObject.getClass())) {
-				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),requireObject.getClass() + ":" + requireObject
-						+ " need extends or implements " + clzz);
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(), requireObject.getClass()
+						+ ":" + requireObject + " need extends or implements " + clzz);
 			}
 		}
 
@@ -108,15 +103,22 @@ public class Checker {
 		public void needExist() {
 			if (requireObject instanceof File) {
 				if (!((File) requireObject).exists()) {
-					throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),requireObject + " does not exist.");
+					throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(), requireObject
+							+ " does not exist.");
 				}
 			}
 		}
 
+		/**
+		 * should in the region which between the given parameters
+		 * @param min Integer
+		 * @param max Integer
+		 */
 		public void inScope(int min, int max) {
 			notNull();
 			if (Integer.valueOf(requireObject.toString()) < min || Integer.valueOf(requireObject.toString()) > max) {
-				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),requireObject + " not between " + min + " and " + max);
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(), requireObject
+						+ " not between " + min + " and " + max);
 			}
 		}
 

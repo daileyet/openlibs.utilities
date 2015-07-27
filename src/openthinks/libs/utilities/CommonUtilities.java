@@ -9,8 +9,7 @@ public class CommonUtilities {
 	public static <T> List<T> requireNotNull(List<T> list) {
 		return (List<T>) (list == null ? Collections.emptyList() : list);
 	}
-	
-	
+
 	/**
 	 * convert array to String, join with ','
 	 * 
@@ -30,17 +29,19 @@ public class CommonUtilities {
 		}
 		return buffer.toString();
 	}
-	
-	
-	public static String format(Object arg,int width,int flag){
-		
-		return String.format("%"+flag+width+"d", arg);
-		
+
+	public static String format(Object arg, int width, int flag) {
+
+		return String.format("%" + flag + width + "d", arg);
+
 	}
-	
-	
-	public static String getCurrentInvokerMethod(){
+
+	/**
+	 * get current run method name
+	 * @return String
+	 */
+	public static String getCurrentInvokerMethod() {
 		return Thread.currentThread().getStackTrace()[2].getMethodName();
 	}
-	
+
 }

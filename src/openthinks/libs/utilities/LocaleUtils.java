@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * The helper of {@link Locale}
  * @author dailey
  *
  */
@@ -39,7 +40,7 @@ public class LocaleUtils {
 
 	private final static Map<String, Locale> langToLocaleMap = new ConcurrentHashMap<String, Locale>();
 
-	static {
+	static {//initial cache map
 		Field[] fields = Locale.class.getDeclaredFields();
 		for (Field field : fields) {
 			int modifers = field.getModifiers();
