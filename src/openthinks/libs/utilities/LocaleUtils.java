@@ -51,7 +51,7 @@ public class LocaleUtils {
 						langToLocaleMap.put(obj.toString(), (Locale) obj);
 					}
 				} catch (Exception e) {
-					//igron
+					//ignore
 				}
 			}
 		}
@@ -62,11 +62,22 @@ public class LocaleUtils {
 	}
 
 	/**
-	 * @param locale
-	 * @return
+	 * convert string to Locale instance
+	 * @param localeToString String
+	 * @return Locale
 	 */
 	public static Locale langToLocale(String localeToString) {
 		return langToLocaleMap.get(localeToString);
+	}
+
+	/**
+	 * compare the given two locale to check if is same or not
+	 * @param a Locale
+	 * @param b Locale
+	 * @return boolean
+	 */
+	public static boolean isSame(Locale a, Locale b) {
+		return a == b || (a != null && a.equals(b));
 	}
 
 }
