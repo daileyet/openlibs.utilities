@@ -67,6 +67,14 @@ public class Checker {
 			}
 		}
 
+		/**
+		 * check the requirer is array type
+		 */
+		public void isArray() {
+			if (!Checker.isArray(requireObject))
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(), "Not array type.");
+		}
+
 		public void equalTo(T comparedObj) {
 			if (requireObject == comparedObj) {
 				return;
@@ -81,11 +89,11 @@ public class Checker {
 			}
 			//TODO compare collection
 
-			throw new CheckerNoPassException();
+			throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod());
 		}
 
 		/**
-		 * check the call object extends or implements from the paremeter class
+		 * check the call object extends or implements from the parameter class
 		 * @param clzz parent class
 		 */
 		public void isExtendsFrom(Class<?> clzz) {
@@ -120,6 +128,14 @@ public class Checker {
 				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(), requireObject
 						+ " not between " + min + " and " + max);
 			}
+		}
+
+		public void sameLengthWith(Object... args) {
+
+		}
+
+		public void sameTypeWith(Object... args) {
+
 		}
 
 	}

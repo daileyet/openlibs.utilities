@@ -40,8 +40,7 @@ public class CheckerNoPassException extends RuntimeException {
 		super();
 	}
 
-	public CheckerNoPassException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
+	public CheckerNoPassException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super();
 	}
 
@@ -49,17 +48,16 @@ public class CheckerNoPassException extends RuntimeException {
 		super(message, cause);
 	}
 
-	
-	public CheckerNoPassException(String causeMethod,String message) {
-		super("Failed on ["+causeMethod+"] checker;"+message);
+	public CheckerNoPassException(String causeMethod, String message) {
+		super("Failed on [" + causeMethod + "] checker;" + message);
 	}
-
 
 	public CheckerNoPassException(Throwable cause) {
 		super(cause);
 	}
-	
-	
-	
+
+	public CheckerNoPassException(String currentInvokerMethod) {
+		super("Failed on [" + currentInvokerMethod + "] checker");
+	}
 
 }
