@@ -28,6 +28,7 @@ package openthinks.libs.utilities;
 import java.lang.reflect.Constructor;
 
 /**
+ * Helper for create a instance of the given type and parameters
  * @author dailey.yet@outlook.com
  *
  */

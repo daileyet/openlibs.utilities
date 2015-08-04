@@ -130,14 +130,111 @@ public class Checker {
 			}
 		}
 
+		/**
+		 * check the required object as array type and has the same length with given parameters
+		 * @param args Object[]
+		 */
 		public void sameLengthWith(Object... args) {
-
+			isArray();
+			int length = Array.getLength(this.requireObject);
+			if (args != null && args.length == length) {
+				return;
+			}
+			throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod());
 		}
 
+		/**
+		 * check the same type between required and given parameters, consider the inheritance as same type too.
+		 * @param args Object[]
+		 */
 		public void sameTypeWith(Object... args) {
+			boolean isArray = Checker.isArray(requireObject);
 
+			if (isArray) {
+				if (args != null) {
+					for (int index = 0, len = Array.getLength(requireObject); index < len; index++) {
+						if (checkSameTypeForSingleton(Array.get(requireObject, index), args[index])) {
+							continue; // PASS
+						}
+						throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod());
+					}
+					return;
+				}
+			} else {
+				if (requireObject == null && args == null) {
+					return;
+				}
+				if (requireObject != null && args != null && args.length == 1 && args[0] != null) {
+					if (checkSameTypeForSingleton(this.requireObject, args[0]))
+						return;
+				}
+			}
+			throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod());
 		}
 
+		private boolean checkSameTypeForSingleton(Object reqiured, Object compared) {
+			if (reqiured == compared) {
+				return true;
+			}
+			if (reqiured != null) {
+				try {
+					Class<?> reqiuredClazz = (Class<?>) reqiured;
+					if (compared == null)// special case
+						return true;
+					if (reqiuredClazz == compared) {
+						return true;
+					}
+					if (reqiuredClazz == compared.getClass()) {
+						return true;
+					}
+					if (reqiuredClazz.isAssignableFrom(compared.getClass())) {
+						return true;
+					}
+					try {
+						if (reqiuredClazz.isAssignableFrom((Class<?>) compared))
+							return true;
+					} catch (Exception e) {
+					}
+
+				} catch (Exception e) {
+					if (compared != null && reqiured.getClass() == compared)
+						return true;
+					if (compared != null && reqiured.getClass() == compared.getClass())
+						return true;
+					if (compared != null && reqiured.getClass().isAssignableFrom(compared.getClass()))
+						return true;
+					try {
+						if (compared != null && reqiured.getClass().isAssignableFrom((Class<?>) compared))
+							return true;
+					} catch (Exception e1) {
+					}
+				}
+			}
+			return false;
+		}
 	}
 
+	public static void main(String[] args) {
+		boolean result = Checker.require(Exception.class).checkSameTypeForSingleton(Exception.class, new Exception());
+		System.out.println(result == true);
+		result = Checker.require(Exception.class).checkSameTypeForSingleton(Exception.class, Exception.class);
+		System.out.println(result == true);
+		result = Checker.require(Exception.class).checkSameTypeForSingleton(Exception.class, null);
+		System.out.println(result == true);
+		result = Checker.require(Exception.class).checkSameTypeForSingleton(Exception.class,
+				new CheckerNoPassException());
+		System.out.println(result == true);
+		result = Checker.require(Exception.class).checkSameTypeForSingleton(Exception.class,
+				CheckerNoPassException.class);
+		System.out.println(result == true);
+		result = Checker.require(Exception.class).checkSameTypeForSingleton(new Exception(),
+				CheckerNoPassException.class);
+		System.out.println(result == true);
+
+		Checker.require(new Class[] { Exception.class }).sameTypeWith(new Exception());
+		Checker.require(new Class[] { Exception.class }).sameTypeWith(new Object[] { null });
+		Checker.require(new Class[] { Exception.class }).sameTypeWith(Exception.class);
+		Checker.require(new Class[] { Exception.class }).sameTypeWith(CheckerNoPassException.class);
+		Checker.require(new Class[] { Exception.class }).sameTypeWith(CheckerNoPassException.class, null);
+	}
 }
