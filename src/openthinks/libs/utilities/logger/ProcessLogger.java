@@ -192,7 +192,7 @@ public class ProcessLogger {
 				}
 				break;
 			}
-			System.err.println();
+			System.out.println();
 		}
 	}
 }
