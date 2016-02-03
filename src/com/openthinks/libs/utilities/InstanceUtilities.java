@@ -23,7 +23,7 @@
 * @date Aug 3, 2015
 * @version V1.0   
 */
-package openthinks.libs.utilities;
+package com.openthinks.libs.utilities;
 
 import java.lang.reflect.Constructor;
 

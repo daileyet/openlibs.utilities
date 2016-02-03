@@ -23,7 +23,7 @@
  * @date 2014年10月13日
  * @version V1.0 
  */
-package openthinks.libs.utilities.exception;
+package com.openthinks.libs.utilities.exception;
 
 /**
  * @author minjdai

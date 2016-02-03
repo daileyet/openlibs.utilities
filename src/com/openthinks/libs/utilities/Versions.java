@@ -16,39 +16,23 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-* @Title: VersionGetter.java 
-* @Package openthinks.libs.utilities.version
+* @Title: Versions.java 
+* @Description: TODO
 * @author dailey.yet@outlook.com  
-* @date 2015/7/22
+* @date Aug 20, 2015
 * @version V1.0   
 */
-package openthinks.libs.utilities.version;
+package com.openthinks.libs.utilities;
+
+import com.openthinks.libs.utilities.version.AppVersion;
+import com.openthinks.libs.utilities.version.VersionCenter;
 
 /**
- * Version {@link AppVersion} getter helper 
+ * openthinks.libs.utilities version class
  * @author dailey.yet@outlook.com
- * @since v1.0
+ *
  */
-public final class VersionGetter {
-	public final static VersionGetter valueOf(Class<?> appClz) {
-		return new VersionGetter(appClz);
-	}
+@AppVersion("1.0")
+public class Versions extends VersionCenter {
 
-	private Class<?> appClz;
-
-	private VersionGetter(Class<?> appClz) {
-		this.appClz = appClz;
-	}
-
-	public final String get() {
-		AppVersion appVersion = appClz.getAnnotation(AppVersion.class);
-		if (appVersion != null) {
-			return appVersion.value();
-		}
-		return "1.0";
-	}
-
-	public final String get(String prefix) {
-		return prefix + "" + get();
-	}
 }

@@ -1,4 +1,4 @@
-package openthinks.libs.utilities;
+package com.openthinks.libs.utilities;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

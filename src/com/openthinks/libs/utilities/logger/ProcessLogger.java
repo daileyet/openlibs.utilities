@@ -22,7 +22,7 @@
 * @date Aug 11, 2015
 * @version V1.0   
 */
-package openthinks.libs.utilities.logger;
+package com.openthinks.libs.utilities.logger;
 
 /**
  * Simple process logger

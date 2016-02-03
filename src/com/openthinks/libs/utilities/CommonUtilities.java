@@ -1,4 +1,4 @@
-package openthinks.libs.utilities;
+package com.openthinks.libs.utilities;
 
 import java.util.Collections;
 import java.util.List;
