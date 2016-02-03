@@ -23,7 +23,7 @@
  * @date 2012-11-2
  * @version V1.0 
  */
-package openthinks.libs.utilities;
+package com.openthinks.libs.utilities;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

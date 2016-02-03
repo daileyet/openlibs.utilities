@@ -16,26 +16,26 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-* @Title: Sortable.java 
-* @Package utilities.sort 
-* @Description: TODO
-* @author dailey  
-* @date 2012-10-30
+* @Title: AppVersion.java 
+* @Package openthinks.libs.utilities.version
+* @Description: AppVersion
+* @author dailey.yet@outlook.com  
+* @date 2015/7/22
 * @version V1.0   
 */
-package openthinks.libs.utilities.sort;
+package com.openthinks.libs.utilities.version;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * @author dailey
- *
+ * @author dailey.yet@outlook.com
+ * @since v1.0
  */
-public interface Sortable<T> {
-	enum Direction{
-		ASC,DESC
-	}
-	
-	void sort();
-	
-	void setDirection(Direction direction);
-	
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface AppVersion {
+	String value() default "1.0";
 }

@@ -23,13 +23,13 @@
  * @date 2012-2-26
  * @version V1.0 
  */
-package openthinks.libs.utilities;
+package com.openthinks.libs.utilities;
 
 import java.io.File;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-import openthinks.libs.utilities.exception.CheckerNoPassException;
+import com.openthinks.libs.utilities.exception.CheckerNoPassException;
 
 /**
  * @author dailey dai

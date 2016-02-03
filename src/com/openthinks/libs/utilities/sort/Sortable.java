@@ -16,36 +16,26 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-* @Title: VersionCenter.java 
-* @Package openthinks.libs.utilities.version 
+* @Title: Sortable.java 
+* @Package utilities.sort 
 * @Description: TODO
-* @author dailey.yet@outlook.com  
-* @date Aug 20, 2015
+* @author dailey  
+* @date 2012-10-30
 * @version V1.0   
 */
-package openthinks.libs.utilities.version;
+package com.openthinks.libs.utilities.sort;
 
 /**
- * This is make the carrier for {@link AppVersion}
- * @author dailey.yet@outlook.com
- * @date 2015-08-20
- * @see VersionGetter
+ * @author dailey
+ *
  */
-public abstract class VersionCenter {
-
-	/**
-	 * get current version number
-	 * @return String
-	 */
-	public String get() {
-		return VersionGetter.valueOf(this.getClass()).get();
+public interface Sortable<T> {
+	enum Direction{
+		ASC,DESC
 	}
-
-	/**
-	 * get current version number with prefix
-	 * @return String
-	 */
-	public String get(String prefix) {
-		return VersionGetter.valueOf(this.getClass()).get(prefix);
-	}
+	
+	void sort();
+	
+	void setDirection(Direction direction);
+	
 }

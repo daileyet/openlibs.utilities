@@ -1,4 +1,4 @@
-package openthinks.libs.utilities;
+package com.openthinks.libs.utilities;
 
 import java.lang.reflect.Array;
 import java.util.HashMap;

@@ -16,26 +16,39 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-* @Title: AppVersion.java 
+* @Title: VersionGetter.java 
 * @Package openthinks.libs.utilities.version
-* @Description: AppVersion
 * @author dailey.yet@outlook.com  
 * @date 2015/7/22
 * @version V1.0   
 */
-package openthinks.libs.utilities.version;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package com.openthinks.libs.utilities.version;
 
 /**
+ * Version {@link AppVersion} getter helper 
  * @author dailey.yet@outlook.com
  * @since v1.0
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface AppVersion {
-	String value() default "1.0";
+public final class VersionGetter {
+	public final static VersionGetter valueOf(Class<?> appClz) {
+		return new VersionGetter(appClz);
+	}
+
+	private Class<?> appClz;
+
+	private VersionGetter(Class<?> appClz) {
+		this.appClz = appClz;
+	}
+
+	public final String get() {
+		AppVersion appVersion = appClz.getAnnotation(AppVersion.class);
+		if (appVersion != null) {
+			return appVersion.value();
+		}
+		return "1.0";
+	}
+
+	public final String get(String prefix) {
+		return prefix + "" + get();
+	}
 }

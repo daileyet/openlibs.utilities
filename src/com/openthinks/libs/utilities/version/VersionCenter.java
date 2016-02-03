@@ -16,23 +16,36 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-* @Title: Versions.java 
+* @Title: VersionCenter.java 
+* @Package openthinks.libs.utilities.version 
 * @Description: TODO
 * @author dailey.yet@outlook.com  
 * @date Aug 20, 2015
 * @version V1.0   
 */
-package openthinks.libs.utilities;
-
-import openthinks.libs.utilities.version.AppVersion;
-import openthinks.libs.utilities.version.VersionCenter;
+package com.openthinks.libs.utilities.version;
 
 /**
- * openthinks.libs.utilities version class
+ * This is make the carrier for {@link AppVersion}
  * @author dailey.yet@outlook.com
- *
+ * @date 2015-08-20
+ * @see VersionGetter
  */
-@AppVersion("1.0")
-public class Versions extends VersionCenter {
+public abstract class VersionCenter {
 
+	/**
+	 * get current version number
+	 * @return String
+	 */
+	public String get() {
+		return VersionGetter.valueOf(this.getClass()).get();
+	}
+
+	/**
+	 * get current version number with prefix
+	 * @return String
+	 */
+	public String get(String prefix) {
+		return VersionGetter.valueOf(this.getClass()).get(prefix);
+	}
 }

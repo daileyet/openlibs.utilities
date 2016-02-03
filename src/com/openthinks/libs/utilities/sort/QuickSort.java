@@ -23,7 +23,7 @@
 * @date 2012-10-30
 * @version V1.0   
 */
-package openthinks.libs.utilities.sort;
+package com.openthinks.libs.utilities.sort;
 
 /**
  * @author dailey
