@@ -68,6 +68,14 @@ public class Checker {
 			}
 		}
 
+		public void notEmpty(String... args) {
+			notNull(args);
+			if ("".equals(requireObject)) {
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),
+						CommonUtilities.toString4Array(args));
+			}
+		}
+
 		/**
 		 * check the requirer is array type
 		 */

@@ -27,6 +27,8 @@ package com.openthinks.libs.utilities;
 
 import java.lang.reflect.Constructor;
 
+import com.openthinks.libs.utilities.logger.ProcessLogger;
+
 /**
  * Helper for create a instance of the given type and parameters
  * @author dailey.yet@outlook.com
@@ -63,6 +65,7 @@ public class InstanceUtilities {
 						object = c.newInstance(args);
 						break;
 					} catch (Exception e) {
+						ProcessLogger.warn(CommonUtilities.getCurrentInvokerMethod(), e.getMessage());
 						continue;
 					}
 				}
