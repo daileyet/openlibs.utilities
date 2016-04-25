@@ -89,6 +89,9 @@ public class InstanceUtilities {
 			this.instanceType = instanceType;
 			if (this.instanceType != null)
 				this.isMember = this.instanceType.isMemberClass();
+			if (this.isMember) {
+				//TODO validate parameter owner could not be empty
+			}
 			this.owner = owner;
 		}
 

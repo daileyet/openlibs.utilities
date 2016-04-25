@@ -32,6 +32,7 @@ import java.util.Arrays;
 import com.openthinks.libs.utilities.exception.CheckerNoPassException;
 
 /**
+ * Validation of common check
  * @author dailey dai
  *
  */
