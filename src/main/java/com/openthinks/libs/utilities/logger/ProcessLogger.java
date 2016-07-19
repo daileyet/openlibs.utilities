@@ -168,27 +168,27 @@ public class ProcessLogger {
 		}
 	}
 
-	public static void debug(String msg, Exception... exs) {
+	public static void debug(String msg, Exception exs) {
 		if (currentLevel().compareTo(PLLevel.DEBUG) >= 0)
 			_debug(msg, exs);
 	}
 
-	public static void info(String msg, Exception... exs) {
+	public static void info(String msg, Exception exs) {
 		if (currentLevel().compareTo(PLLevel.INFO) >= 0)
 			_info(msg, exs);
 	}
 
-	public static void warn(String msg, Exception... exs) {
+	public static void warn(String msg, Exception exs) {
 		if (currentLevel().compareTo(PLLevel.WARN) >= 0)
 			_warn(msg, exs);
 	}
 
-	public static void error(String msg, Exception... exs) {
+	public static void error(String msg, Exception exs) {
 		if (currentLevel().compareTo(PLLevel.ERROR) >= 0)
 			_error(msg, exs);
 	}
 
-	public static void fatal(String msg, Exception... exs) {
+	public static void fatal(String msg, Exception exs) {
 		if (currentLevel().compareTo(PLLevel.FATAL) >= 0)
 			_fatal(msg, exs);
 	}
@@ -296,11 +296,12 @@ public class ProcessLogger {
 		@Override
 		public void action(PLLevel level, String msg, Exception... exs) {
 			String _msg = msg == null ? "" : msg;
+			Exception[] _exs = exs == null ? new Exception[0] : exs;
 			switch (level) {
 			case FATAL:
 			case ERROR:
 				System.err.println(level.name() + "=>" + _msg);
-				for (Exception ex : exs) {
+				for (Exception ex : _exs) {
 					ex.printStackTrace(System.err);
 				}
 				break;
@@ -308,7 +309,7 @@ public class ProcessLogger {
 			case INFO:
 			case DEBUG:
 				System.out.println(level.name() + "=>" + _msg);
-				for (Exception ex : exs) {
+				for (Exception ex : _exs) {
 					ex.printStackTrace(System.out);
 				}
 				break;
