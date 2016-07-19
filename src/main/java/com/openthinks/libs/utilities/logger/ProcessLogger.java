@@ -124,6 +124,102 @@ public class ProcessLogger {
 
 	////////////////////////////////////////////////////////////////////////////////////
 
+	private static void _debug(String msg, Exception... exs) {
+		getImplManager().createImpl().action(PLLevel.DEBUG, msg, exs);
+	}
+
+	private static void _info(String msg, Exception... exs) {
+		getImplManager().createImpl().action(PLLevel.INFO, msg, exs);
+	}
+
+	private static void _warn(String msg, Exception... exs) {
+		getImplManager().createImpl().action(PLLevel.WARN, msg, exs);
+	}
+
+	private static void _error(String msg, Exception... exs) {
+		getImplManager().createImpl().action(PLLevel.ERROR, msg, exs);
+	}
+
+	private static void _fatal(String msg, Exception... exs) {
+		getImplManager().createImpl().action(PLLevel.FATAL, msg, exs);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+
+	public static void log(PLLevel plevel, String msg, Exception... exs) {
+		switch (plevel) {
+		case DEBUG:
+			_debug(msg, exs);
+			break;
+		case INFO:
+			_info(msg, exs);
+			break;
+		case WARN:
+			_warn(msg, exs);
+			break;
+		case ERROR:
+			_error(msg, exs);
+			break;
+		case FATAL:
+			_fatal(msg, exs);
+			break;
+		default:
+			break;
+		}
+	}
+
+	public static void debug(String msg, Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.DEBUG) >= 0)
+			_debug(msg, exs);
+	}
+
+	public static void info(String msg, Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.INFO) >= 0)
+			_info(msg, exs);
+	}
+
+	public static void warn(String msg, Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.WARN) >= 0)
+			_warn(msg, exs);
+	}
+
+	public static void error(String msg, Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.ERROR) >= 0)
+			_error(msg, exs);
+	}
+
+	public static void fatal(String msg, Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.FATAL) >= 0)
+			_fatal(msg, exs);
+	}
+
+	public static void debug(Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.DEBUG) >= 0)
+			_debug(null, exs);
+	}
+
+	public static void info(Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.INFO) >= 0)
+			_info(null, exs);
+	}
+
+	public static void warn(Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.WARN) >= 0)
+			_warn(null, exs);
+	}
+
+	public static void error(Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.ERROR) >= 0)
+			_error(null, exs);
+	}
+
+	public static void fatal(Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.FATAL) >= 0)
+			_fatal(null, exs);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Process Logger level
 	 * @author dailey.yet@outlook.com
@@ -167,6 +263,8 @@ public class ProcessLogger {
 		 * @param msgs String[]
 		 */
 		public void action(PLLevel level, String... msgs);
+
+		public void action(PLLevel level, String msg, Exception... exs);
 	}
 
 	private static class ConsoleImpl implements Impl {
@@ -193,6 +291,30 @@ public class ProcessLogger {
 				break;
 			}
 			System.out.println();
+		}
+
+		@Override
+		public void action(PLLevel level, String msg, Exception... exs) {
+			String _msg = msg == null ? "" : msg;
+			switch (level) {
+			case FATAL:
+			case ERROR:
+				System.err.println(level.name() + "=>" + _msg);
+				for (Exception ex : exs) {
+					ex.printStackTrace(System.err);
+				}
+				break;
+			case WARN:
+			case INFO:
+			case DEBUG:
+				System.out.println(level.name() + "=>" + _msg);
+				for (Exception ex : exs) {
+					ex.printStackTrace(System.out);
+				}
+				break;
+			}
+			System.out.println();
+
 		}
 	}
 }
