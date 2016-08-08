@@ -65,7 +65,7 @@ public class InstanceUtilities {
 						object = c.newInstance(args);
 						break;
 					} catch (Exception e) {
-						ProcessLogger.warn(CommonUtilities.getCurrentInvokerMethod(), e.getMessage());
+						ProcessLogger.warn("Get exception when instance Class:" + searchType, e);
 						continue;
 					}
 				}
@@ -102,7 +102,7 @@ public class InstanceUtilities {
 			Object owner = null;
 			if (objects != null && objects.length > 0)
 				owner = objects[0];
-			return new InstanceWrapper<T>(instanceType, owner);
+			return new InstanceWrapper<>(instanceType, owner);
 		}
 
 	}
