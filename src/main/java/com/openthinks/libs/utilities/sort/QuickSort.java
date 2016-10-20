@@ -34,9 +34,6 @@ public class QuickSort<T extends Comparable<T>> implements Sortable<T> {
 	private T[] array;
 	private Direction direction = Direction.ASC;
 
-	/**
-	 * 
-	 */
 	public QuickSort(T[] array) {
 		this.array = array;
 	}
@@ -44,6 +41,7 @@ public class QuickSort<T extends Comparable<T>> implements Sortable<T> {
 	/**
 	 * @param direction the direction to set
 	 */
+	@Override
 	public void setDirection(Direction direction) {
 		if (direction != null)
 			this.direction = direction;

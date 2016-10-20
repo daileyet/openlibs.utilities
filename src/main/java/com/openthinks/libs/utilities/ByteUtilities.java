@@ -17,9 +17,10 @@ public class ByteUtilities {
 
 	/**
 	 * convert a object to byte array, use serialization
+	 * 
 	 * @param obj Object
-	 * @return byte[]
-	 * @throws IOException
+	 * @return byte[] object byte array
+	 * @exception  IOException  if an I/O error occurs while writing stream header
 	 */
 	public static byte[] toByteArray(final Object obj) throws IOException {
 		byte[] byteArray = null;
@@ -35,10 +36,11 @@ public class ByteUtilities {
 
 	/**
 	 * get object from byte array, use deserialization
+	 * 
 	 * @param byteArray byte[]
-	 * @return Object
-	 * @throws IOException
-	 * @throws ClassNotFoundException
+	 * @return Object instance of represent class in byteArray
+	 * @exception ClassNotFoundException  Class of a serialized object cannot be found  
+	 * @exception IOException if an I/O error occurs while reading stream header
 	 */
 	public static Object fromByteArray(final byte[] byteArray) throws IOException, ClassNotFoundException {
 		if (byteArray == null || byteArray.length == 0)
@@ -54,20 +56,20 @@ public class ByteUtilities {
 	/**
 	 * cache for load class
 	 */
-	private static Map<Long, Class<?>> loadedClassMap = new HashMap<Long, Class<?>>();
+	private static Map<Long, Class<?>> loadedClassMap = new HashMap<>();
 
 	/**
 	 * load external class file
 	 * 
-	 * @param classFile
-	 *            File
-	 * @return Class<?> Type of this file represent
+	 * @param classFile File
+	 * @return Class Type of this file represent
+	 * 
 	 */
 	public static Class<?> findClass(File classFile) {
 		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 		try {
-			Method method = ClassLoader.class.getDeclaredMethod("defineClass", new Class[] { String.class,
-					byte[].class, int.class, int.class });
+			Method method = ClassLoader.class.getDeclaredMethod("defineClass",
+					new Class[] { String.class, byte[].class, int.class, int.class });
 			method.setAccessible(true);
 			byte[] totalData = toByteArray(classFile);
 			Long key = getKey(totalData);
@@ -93,10 +95,11 @@ public class ByteUtilities {
 
 	/**
 	 * get byte arrays from the local file
+	 * 
 	 * @param classFile File
-	 * @return byte[]
-	 * @throws FileNotFoundException
-	 * @throws IOException
+	 * @return byte[] class byte array
+	 * @exception FileNotFoundException if the file does not exist, is a directory rather than a regular file, or for some other reason cannot be opened for reading.
+	 * @exception IOException if an I/O error occurs.
 	 */
 	public static byte[] toByteArray(File classFile) throws FileNotFoundException, IOException {
 		byte[] totalData = new byte[1024];

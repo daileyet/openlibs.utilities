@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public final class Converter {
 	private final Object source;
-	private static Map<Class<?>, ConvertHandler> handlerMap = new HashMap<Class<?>, ConvertHandler>();
+	private static Map<Class<?>, ConvertHandler> handlerMap = new HashMap<>();
 
 	static {
 		// initial ConvertHandler
@@ -67,11 +67,10 @@ public final class Converter {
 	 * convert source to target type, <BR>
 	 * if source is array, try to convert the first element of the array to
 	 * target type.
-	 * 
-	 * @param <T>
+	 * @param <T> class instance type
 	 * @param clazz
 	 *            target type
-	 * @return T
+	 * @return class instance
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T convertToSingle(Class<T> clazz) {
@@ -101,15 +100,14 @@ public final class Converter {
 
 	/**
 	 * convert source array to target type array
-	 * 
-	 * @param <T>
+	 * @param <T> class instance type
 	 * @param clazz
 	 *            target array element type
-	 * @return ConvertArray<T>
+	 * @return ConvertArray
 	 */
 	public <T> ConvertArray<T> convertToArray(Class<T> clazz) {
 		Object target = _convertToArray(clazz);
-		return new Converter.ConvertArray<T>(target, clazz);
+		return new Converter.ConvertArray<>(target, clazz);
 	}
 
 	/**
@@ -117,8 +115,9 @@ public final class Converter {
 	 * source:int[] array<br>
 	 * target:Integer[] array
 	 * 
-	 * @param clazz
-	 * @return
+	 * @param <T> class instance type
+	 * @param clazz target array element type
+	 * @return array object
 	 */
 	protected <T> Object _convertToArray(Class<T> clazz) {
 		if (!isArray()) {
@@ -141,8 +140,9 @@ public final class Converter {
 	/**
 	 * convert to pure array
 	 * 
-	 * @param clazz
-	 * @return
+	 * @param <T> class instance type
+	 * @param clazz target class type
+	 * @return array of the class instance
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T[] convert2Array(Class<T> clazz) {

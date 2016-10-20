@@ -28,7 +28,7 @@ package com.openthinks.libs.utilities.version;
 /**
  * This is make the carrier for {@link AppVersion}
  * @author dailey.yet@outlook.com
- * @date 2015-08-20
+ * @version 2015-08-20
  * @see VersionGetter
  */
 public abstract class VersionCenter {
@@ -43,6 +43,7 @@ public abstract class VersionCenter {
 
 	/**
 	 * get current version number with prefix
+	 * @param prefix String
 	 * @return String
 	 */
 	public String get(String prefix) {

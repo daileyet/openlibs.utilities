@@ -82,9 +82,9 @@ public class InstanceUtilities {
 		/**
 		 * 
 		 * @param instanceType
-		 *            Class<E> the class type of instancing object
+		 *            the class type of instancing object
 		 * @param owner
-		 *            Object the instance object class type define in owner, it
+		 *            the instance object class type define in owner, it
 		 *            means the instance class is a member class.
 		 */
 		public InstanceWrapper(Class<E> instanceType, Object owner) {
