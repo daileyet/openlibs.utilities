@@ -21,6 +21,6 @@ By Maven:
 
 Or
 
-Downloading from [oss.sonatype](https://oss.sonatype.org/content/groups/staging/com/openthinks/libs/utilities/) directly
+Downloading from [oss.sonatype](https://oss.sonatype.org/content/groups/staging/com/openthinks/libs/utilities/) or [repo.maven](https://repo1.maven.org/maven2/com/openthinks/easyweb/) directly
 
 
