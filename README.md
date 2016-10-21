@@ -13,9 +13,9 @@ The lib is java utilities for other projects under openlibs; it include and will
 By Maven:
 ```
 <dependency>
-  <groupId>com.openthinks</groupId>
-  <artifactId>easyweb</artifactId>
-  <version>1.2</version>
+  <groupId>com.openthinks.libs</groupId>
+  <artifactId>utilities</artifactId>
+  <version>1.0</version>
 </dependency>
 ```
 
