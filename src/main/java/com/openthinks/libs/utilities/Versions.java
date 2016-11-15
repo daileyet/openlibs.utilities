@@ -35,4 +35,15 @@ import com.openthinks.libs.utilities.version.VersionCenter;
 @AppVersion("1.0")
 public class Versions extends VersionCenter {
 
+	/**
+	 * @change
+	 * <ul>
+	 * 	<li>Add ObjectPool and SharedContext</li>
+	 * </ul>
+	 */
+	String v_1_1;
+	/**
+	 * @base
+	 */
+	String v_1_0;
 }
