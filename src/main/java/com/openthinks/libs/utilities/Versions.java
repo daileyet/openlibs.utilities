@@ -32,9 +32,19 @@ import com.openthinks.libs.utilities.version.VersionCenter;
  * @author dailey.yet@outlook.com
  *
  */
-@AppVersion("1.0")
+@AppVersion("1.2")
 public class Versions extends VersionCenter {
 
+	/**
+	 * @change
+	 * <ul>
+	 * 	<li>Add package com.openthinks.libs.utilities.websocket</li>
+	 * 	<li>Add package com.openthinks.libs.utilities.lookup</li>
+	 *  <li>Modify com.openthinks.libs.utilities.pools.object.ObjectPool</li>
+	 *  <li>Modify com.openthinks.libs.utilities.logger.ProcessLogger</li>
+	 * </ul>
+	 */
+	String v_1_2;
 	/**
 	 * @change
 	 * <ul>

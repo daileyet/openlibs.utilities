@@ -3,18 +3,18 @@ package com.openthinks.libs.utilities.pools.object;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.openthinks.libs.utilities.Checker;
-
 /**
  * The object pool, it will cache all the shared objects which fetch from this pool
  * @author minjdai
+ * @modify 2017-10-12
  * 
  */
-public class ObjectPool {
+public final class ObjectPool {
 	// store the shared objects
 	// private final ObjectList objects = new ObjectList();
 	private final FirstLastObjectNameLookUp pool = new FirstLastObjectNameLookUp();
@@ -26,14 +26,24 @@ public class ObjectPool {
 	public ObjectPool() {
 	}
 
-	void cleanUp() {
+	public void cleanUp() {
 		pool.clear();
+		aliasMap.clear();
+		typeMap.clear();
+	}
+
+	// used for test
+	FirstLastObjectNameLookUp pool() {
+		return pool;
 	}
 
 	/**
 	 * register the special object by the Class type
-	 * @param type Class
-	 * @param object Object
+	 * 
+	 * @param type
+	 *            Class
+	 * @param object
+	 *            Object
 	 */
 	public void put(Class<?> type, Object object) {
 		if (type == null)
@@ -50,8 +60,11 @@ public class ObjectPool {
 
 	/**
 	 * get the shared object by Class type key
-	 * @param <T> object
-	 * @param type Class
+	 * 
+	 * @param <T>
+	 *            object
+	 * @param type
+	 *            Class
 	 * @return T object
 	 */
 	@SuppressWarnings("unchecked")
@@ -66,8 +79,11 @@ public class ObjectPool {
 
 	/**
 	 * register the special object by the alias name
-	 * @param alias String
-	 * @param object Object
+	 * 
+	 * @param alias
+	 *            String
+	 * @param object
+	 *            Object
 	 */
 	public void put(String alias, Object object) {
 		if (alias == null)
@@ -84,8 +100,11 @@ public class ObjectPool {
 
 	/**
 	 * get the shared object by alias name key
-	 * @param alias String
-	 * @param <T> Class
+	 * 
+	 * @param alias
+	 *            String
+	 * @param <T>
+	 *            Class
 	 * @return T shared object with the given alias name
 	 */
 	@SuppressWarnings("unchecked")
@@ -99,33 +118,50 @@ public class ObjectPool {
 	}
 
 	/**
-	 * make an alias for the shared object
-	 * @param sharedObject Object
-	 * @param alias String
+	 * make an alias for the shared object, if this object is not shared in current
+	 * pool, this operation will return false<BR>
+	 * 
+	 * <pre>
+	 * <code>
+	 * Object aSharedObj = get(SharedObjectClassType.class);
+	 * boolean isSuccess = asAlias(aSharedObj,"aliasName");
+	 * </code>
+	 * </pre>
+	 * 
+	 * @param sharedObject
+	 *            Object shared object in current pool
+	 * @param alias
+	 *            String alias name for this shared object
+	 * @return true or false if operate success or not
 	 */
-	public void asAlias(Object sharedObject, String alias) {
+	public boolean asAlias(Object sharedObject, String alias) {
 		if (alias == null)
-			return;
+			return false;
 		Ends ends = pool.findEnds(sharedObject);
-		if (!ends.equals(aliasMap.get(alias))) {
+		if (ends != null && !ends.equals(aliasMap.get(alias))) {
 			aliasMap.put(alias, ends);
+			return true;
 		}
+		return false;
 	}
 
 }
 
 /**
  * two-level stored data structure
- * @author dailey.yet@outlook.com
+ * 
+ * @author dailey.dai@cn.bosch.com DAD2SZH
  *
  */
 class FirstLastObjectNameLookUp {
 
-	/*
+	/**
+	 * <pre>
 	 *  entry map : 
-	 *  			KEY		: Class Name first character 
+	 *  			KEY		: Class Name first character or class name length cast to character; it depend on {@link Ends#first()}
 	 *  			VALUE	: Map(	KEY:Class Name last character; VALUE: ObjectList)
-	 *  						
+	 * </pre>
+	 * 
 	 */
 	Map<Character, Map<Character, ObjectList>> entryMap = new ConcurrentHashMap<>();
 
@@ -142,10 +178,10 @@ class FirstLastObjectNameLookUp {
 	}
 
 	private ObjectList getObjectList(Ends ends) {
-		Checker.require(ends).notNull();
+		Objects.requireNonNull(ends);
 		ObjectList objList = combineMap.get(ends.combine());
 		if (objList == null) {
-			Map<Character, ObjectList> firstEntry = entryMap.get(entryMap.get(ends.first()));// TODO exist issue???
+			Map<Character, ObjectList> firstEntry = entryMap.get(ends.first());
 			if (firstEntry != null) {
 				objList = firstEntry.get(ends.last());
 			}
@@ -154,8 +190,7 @@ class FirstLastObjectNameLookUp {
 	}
 
 	Ends put(final Object object) {
-		Ends ends = null;
-		ends = Ends.build(object);
+		Ends ends = Ends.build(object);
 		Map<Character, ObjectList> firstEntry = entryMap.get(ends.first());
 		if (firstEntry == null) {
 			firstEntry = new ConcurrentHashMap<>();
@@ -205,12 +240,16 @@ class FirstLastObjectNameLookUp {
 		entryMap.clear();
 	}
 
-	private class ObjectList {
+	class ObjectList {
 		private final List<Object> _objects = new ArrayList<>();
 		private final Lock lock = new ReentrantLock();
 
 		void replace(int index, Object newObject) {
 			_objects.set(index, newObject);
+		}
+
+		int size() {
+			return _objects.size();
 		}
 
 		int find(Object sharedObject) {
@@ -240,6 +279,25 @@ class FirstLastObjectNameLookUp {
 }
 
 /**
+ * 
+ * ClassName: EnhancedEnds <br/>
+ * Function: the first character replace the class name length. <br/>
+ * Reason: most of time all classes are in same root package, so they will have
+ * the same start character. <br/>
+ * date: Sep 11, 2017 10:47:04 AM <br/>
+ */
+class EnhancedEnds extends Ends {
+	EnhancedEnds(final String className) {
+		super(className);
+	}
+
+	@Override
+	protected String calculateEnds(String className) {
+		return (char) className.length() + className.substring(className.length() - 1, className.length());
+	}
+}
+
+/**
  * First and Last(end to end) character of the object class name
  * 
  * @author minjdai
@@ -247,8 +305,8 @@ class FirstLastObjectNameLookUp {
  */
 class Ends {
 	public static Ends build(Object object) {
-		Checker.require(object).notNull();
-		return new Ends(object.getClass().getName());
+		Objects.requireNonNull(object);
+		return new EnhancedEnds(object.getClass().getName());
 	}
 
 	@Override
@@ -282,7 +340,7 @@ class Ends {
 		return true;
 	}
 
-	private final String ends;
+	protected final String ends;
 	private Integer index;
 
 	public Integer getIndex() {
@@ -294,7 +352,11 @@ class Ends {
 	}
 
 	public Ends(final String className) {
-		ends = className.substring(0, 1) + className.substring(className.length() - 1, className.length());
+		ends = calculateEnds(className);
+	}
+
+	protected String calculateEnds(String className) {
+		return className.substring(0, 1) + className.substring(className.length() - 1, className.length());
 	}
 
 	public Character first() {
@@ -313,3 +375,4 @@ class Ends {
 		return getIndex() != null && getIndex() >= 0;
 	}
 }
+
