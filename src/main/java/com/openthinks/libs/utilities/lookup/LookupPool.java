@@ -62,7 +62,7 @@ public abstract class LookupPool {
 
 	public abstract String name();
 
-	LookupPool() {
+	protected LookupPool() {
 		objectPool = new ObjectPool();
 		lock = new ReentrantReadWriteLock();
 	}
@@ -310,7 +310,7 @@ public abstract class LookupPool {
 		}
 	}
 
-	void cleanUp() {
+	protected void cleanUp() {
 		lock.writeLock().lock();
 		try {
 			objectPool.cleanUp();
