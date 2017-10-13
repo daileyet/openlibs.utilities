@@ -17,13 +17,12 @@ import com.openthinks.libs.utilities.websocket.message.IConstant;
 
 /**
  * 
- * ClassName: AbstractMessageDecoder <br/>
- * Function: TODO FUNCTION description of this class. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Jul 26, 2017 4:21:04 PM <br/>
+ * ClassName: AbstractMessageDecoder <br>
+ * Function: TODO FUNCTION description of this class. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Jul 26, 2017 4:21:04 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version
  * @since JDK 1.8
  */
 public class AbstractMessageDecoder implements Decoder.Text<AbstractMessage> {

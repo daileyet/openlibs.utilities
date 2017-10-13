@@ -31,7 +31,7 @@ public abstract class AbstractEndPointSupport
 
   /**
    * 
-   * sendMessage:send message to all connected client if it is business. <br/>
+   * sendMessage:send message to all connected client if it is business. <br>
    * 
    * @author dailey.dai@cn.bosch.com DAD2SZH
    * @param msg {@link IMessage}

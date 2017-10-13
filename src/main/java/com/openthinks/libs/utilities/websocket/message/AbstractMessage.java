@@ -9,13 +9,12 @@ import com.openthinks.libs.utilities.websocket.helper.json.Exclude;
 
 /**
  * 
- * ClassName: AbstractMessage <br/>
- * Function: TODO FUNCTION description of this class. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Jul 26, 2017 4:20:41 PM <br/>
+ * ClassName: AbstractMessage <br>
+ * Function: TODO FUNCTION description of this class. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Jul 26, 2017 4:20:41 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version
  * @since JDK 1.8
  */
 public abstract class AbstractMessage implements IMessage, IEncoder, IDecoder<AbstractMessage> {

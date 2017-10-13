@@ -10,13 +10,12 @@ import com.openthinks.libs.utilities.websocket.message.IMessage;
 
 /**
  * 
- * ClassName: MessageTypes <br/>
- * Function: Message types directory. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Jul 26, 2017 4:21:24 PM <br/>
+ * ClassName: MessageTypes <br>
+ * Function: Message types directory. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Jul 26, 2017 4:21:24 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version
  * @since JDK 1.8
  */
 public final class MessageTypes {

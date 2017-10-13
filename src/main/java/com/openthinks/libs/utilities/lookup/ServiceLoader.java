@@ -494,11 +494,11 @@ public final class ServiceLoader<S> implements Iterable<S> {
 	 * {@link java.util.Iterator#remove() remove} method will cause an
 	 * {@link UnsupportedOperationException} to be thrown.
 	 *
-	 * @implNote When adding providers to the cache, the {@link #iterator Iterator}
-	 *           processes resources in the order that the
-	 *           {@link java.lang.ClassLoader#getResources(java.lang.String)
-	 *           ClassLoader.getResources(String)} method finds the service
-	 *           configuration files.
+	 * implNote When adding providers to the cache, the {@link #iterator Iterator}
+	 * processes resources in the order that the
+	 * {@link java.lang.ClassLoader#getResources(java.lang.String)
+	 * ClassLoader.getResources(String)} method finds the service configuration
+	 * files.
 	 *
 	 * @return An iterator that lazily loads providers for this loader's service
 	 */
@@ -607,6 +607,9 @@ public final class ServiceLoader<S> implements Iterable<S> {
 	 *
 	 * @param service
 	 *            The interface or abstract class representing the service
+	 * 
+	 * @param params
+	 *            constructor arguments
 	 *
 	 * @return A new service loader
 	 */
@@ -649,6 +652,8 @@ public final class ServiceLoader<S> implements Iterable<S> {
 	 *            The interface or abstract class representing the service
 	 * @param focusClazz
 	 *            focused class name
+	 * @param params
+	 *            constructor arguments
 	 * @return A new service loader
 	 */
 	public static <S> ServiceLoader<S> load(Class<S> service, String focusClazz, Object... params) {
@@ -688,7 +693,8 @@ public final class ServiceLoader<S> implements Iterable<S> {
 	 *
 	 * @param service
 	 *            The interface or abstract class representing the service
-	 *
+	 * @param params
+	 *            constructor arguments
 	 * @return A new service loader
 	 */
 	public static <S> ServiceLoader<S> loadInstalled(Class<S> service, Object... params) {

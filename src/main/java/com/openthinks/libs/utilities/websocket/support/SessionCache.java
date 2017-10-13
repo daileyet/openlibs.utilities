@@ -9,13 +9,12 @@ import com.openthinks.libs.utilities.logger.ProcessLogger;
 
 /**
  * 
- * ClassName: SessionCache <br/>
- * Function: TODO FUNCTION description of this class. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Jul 26, 2017 4:22:53 PM <br/>
+ * ClassName: SessionCache <br>
+ * Function: TODO FUNCTION description of this class. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Jul 26, 2017 4:22:53 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version @param <T>
  * @since JDK 1.8
  */
 public final class SessionCache<T extends IEndPointSession> {

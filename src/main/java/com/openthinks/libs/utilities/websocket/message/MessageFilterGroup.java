@@ -7,13 +7,12 @@ import java.util.Map;
 import com.openthinks.libs.utilities.websocket.support.IEndPointSession;
 
 /**
- * ClassName: MessageFilterGroup <br/>
- * Function: TODO FUNCTION description of this class. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Jul 27, 2017 9:51:26 PM <br/>
+ * ClassName: MessageFilterGroup <br>
+ * Function: TODO FUNCTION description of this class. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Jul 27, 2017 9:51:26 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version
  * @since JDK 1.8
  */
 public final class MessageFilterGroup implements IMessageFilter<IMessage, IEndPointSession> {

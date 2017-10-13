@@ -11,13 +11,12 @@ import javax.websocket.Session;
 import com.openthinks.libs.utilities.websocket.message.IMessage;
 
 /**
- * ClassName: IEndPoint <br/>
- * Function: TODO FUNCTION description of this class. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Aug 21, 2017 1:17:36 PM <br/>
+ * ClassName: IEndPoint <br>
+ * Function: TODO FUNCTION description of this class. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Aug 21, 2017 1:17:36 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version
  * @since JDK 1.8
  */
 public interface IEndPoint {

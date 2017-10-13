@@ -6,20 +6,18 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * ClassName: LookupPools <br/>
- * Function: utilities of {@link LookupPool}. <br/>
- * date: Sep 8, 2017 3:39:12 PM <br/>
+ * ClassName: LookupPools <br>
+ * Function: utilities of {@link LookupPool}. <br>
+ * date: Sep 8, 2017 3:39:12 PM <br>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
- * @version
- * @since JDK 1.8
+ * @author dailey.dai@outlook.com
  */
 public final class LookupPools {
 
 	/**
 	 * 
 	 * gloabl: return common {@link LookupPool}, it is global {@link LookupPool} and
-	 * will be singleton . <br/>
+	 * will be singleton . <br>
 	 * 
 	 * @return instance of {@link LookupPool}
 	 */
@@ -31,7 +29,7 @@ public final class LookupPools {
 
 	/**
 	 * 
-	 * get:return or create new named instance of {@link LookupPool}. <br/>
+	 * get:return or create new named instance of {@link LookupPool}. <br>
 	 * 
 	 * @param lookupPoolName
 	 *            String name of {@link LookupPool}
@@ -57,7 +55,7 @@ public final class LookupPools {
 
 	/**
 	 * cleanUp:only clean up cached {@link LookupPool}s, not include instance which
-	 * comes from {@link #global()}. <br/>
+	 * comes from {@link #global()}. <br>
 	 */
 	public static void cleanUp() {
 		lock.writeLock().lock();

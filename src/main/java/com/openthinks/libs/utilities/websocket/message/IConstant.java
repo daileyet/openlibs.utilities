@@ -3,13 +3,12 @@ package com.openthinks.libs.utilities.websocket.message;
 
 /**
  * 
- * ClassName: IConstant <br/>
- * Function: constant for websocket and its message. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Jul 26, 2017 4:20:07 PM <br/>
+ * ClassName: IConstant <br>
+ * Function: constant for websocket and its message. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Jul 26, 2017 4:20:07 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version
  * @since JDK 1.8
  */
 public interface IConstant {

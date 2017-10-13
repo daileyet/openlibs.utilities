@@ -5,13 +5,12 @@ import com.google.gson.FieldAttributes;
 
 /**
  * 
- * ClassName: AnnotationExclusionStrategy <br/>
- * Function: TODO FUNCTION description of this class. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Jul 26, 2017 4:21:42 PM <br/>
+ * ClassName: AnnotationExclusionStrategy <br>
+ * Function: TODO FUNCTION description of this class. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Jul 26, 2017 4:21:42 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version
  * @since JDK 1.8
  */
 public class AnnotationExclusionStrategy implements ExclusionStrategy {

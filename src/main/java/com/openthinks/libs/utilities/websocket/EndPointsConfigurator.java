@@ -11,13 +11,12 @@ import com.openthinks.libs.utilities.websocket.message.IConstant;
 
 /**
  * 
- * ClassName: EndPointsConfigurator <br/>
- * Function: TODO FUNCTION description of this class. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Jul 26, 2017 4:19:29 PM <br/>
+ * ClassName: EndPointsConfigurator <br>
+ * Function: TODO FUNCTION description of this class. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Jul 26, 2017 4:19:29 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version
  * @since JDK 1.8
  */
 public class EndPointsConfigurator extends Configurator {

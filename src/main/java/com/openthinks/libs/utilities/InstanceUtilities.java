@@ -31,15 +31,15 @@ import com.openthinks.libs.utilities.logger.ProcessLogger;
 
 /**
  * Helper for create a instance of the given type and parameters
+ * 
  * @author dailey.yet@outlook.com
- * @modify 2017-10-12
  *
  */
 public final class InstanceUtilities {
 
 	/**
 	 * 
-	 * create:instantiate a object by its super interface or class. <br/>
+	 * create:instantiate a object by its super interface or class. 
 	 * 
 	 * <pre>
 	 * <code>
@@ -54,7 +54,7 @@ public final class InstanceUtilities {
 	 * class Client{
 	 * 
 	 * public void static main(String[] args){
-	 * 		InstanceWrapper<AImpl> wrapper = InstanceWrapper.build(AImpl.class);
+	 * 		InstanceWrapper&lt;AImpl&gt; wrapper = InstanceWrapper.build(AImpl.class);
 	 * 		A aInstance = InstanceUtilities.create(A.class,wrapper);
 	 * 
 	 * 	}
@@ -62,8 +62,6 @@ public final class InstanceUtilities {
 	 * }
 	 * </code>
 	 * </pre>
-	 * 
-	 * <br/>
 	 * 
 	 * @param <T>
 	 *            search interface or class type
@@ -106,7 +104,7 @@ public final class InstanceUtilities {
 						object = c.newInstance(args);
 						break;
 					} catch (Exception e) {
-						ProcessLogger.warn("Get exception when instance Class:" + searchType,  e);
+						ProcessLogger.warn("Get exception when instance Class:" + searchType, e);
 						continue;
 					}
 				}
@@ -142,7 +140,7 @@ public final class InstanceUtilities {
 
 		/**
 		 * 
-		 * build: create a instance of {@link InstanceWrapper} <br/>
+		 * build: create a instance of {@link InstanceWrapper} <br>
 		 * 
 		 * @param <T>
 		 *            class type

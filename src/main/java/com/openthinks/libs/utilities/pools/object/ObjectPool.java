@@ -11,7 +11,6 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * The object pool, it will cache all the shared objects which fetch from this pool
  * @author minjdai
- * @modify 2017-10-12
  * 
  */
 public final class ObjectPool {

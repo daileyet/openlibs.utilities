@@ -11,15 +11,13 @@ import com.openthinks.libs.utilities.pools.object.ObjectPool;
 
 
 /**
- * ClassName: LookupPool <br/>
- * Function: It is used for store shared object instances and find other SPI
- * implementations which not include those service extends from
- * {@link CCUApplicationService} . <br/>
+ * ClassName: LookupPool <br>
+ * Function: It is used for store shared object instances and find other SPI<br>
  * Reason: follow the design pattern of fly weight to reduce instantiate new
- * object. <br/>
+ * object. <br>
  * Notice: avoid store or find those object which include its own state and will
- * be changed;<br/>
- * Usage:</br>
+ * be changed;<br>
+ * Usage:<br>
  * 
  * <pre>
  * <code>
@@ -52,9 +50,9 @@ import com.openthinks.libs.utilities.pools.object.ObjectPool;
  * </code>
  * </pre>
  * 
- * date: Sep 8, 2017 3:15:29 PM <br/>
+ * date: Sep 8, 2017 3:15:29 PM <br>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
+ * @author dailey.yet@outlook.com
  * @version 1.0
  * @since JDK 1.8
  */
@@ -192,10 +190,10 @@ public abstract class LookupPool {
 	/**
 	 * 
 	 * lookupSPI:this will used {@link ServiceLoader} to load SPI which defined in
-	 * folder <B>META-INF/services</B>. <br/>
+	 * folder <B>META-INF/services</B>. <br>
 	 * It will first to try to load instance from cached {@link ObjectPool}, if not
-	 * found, then try to load SPI class and instantiate it.<br/>
-	 * Notice: only load and instantiate first SPI class in defined file</br>
+	 * found, then try to load SPI class and instantiate it.<br>
+	 * Notice: only load and instantiate first SPI class in defined file<br>
 	 * 
 	 * @param <T>
 	 *            lookup SPI interface class
@@ -204,8 +202,6 @@ public abstract class LookupPool {
 	 * @param args
 	 *            constructor arguments
 	 * @return implementation of parameter spiInterface
-	 * @throws CheckerNoPassException
-	 *             when not found implementation SPI
 	 */
 	public <T> T lookupSPI(Class<T> spiInterface, Object... args) {
 		return lookupFocusSPI(spiInterface, null, args);
@@ -214,10 +210,10 @@ public abstract class LookupPool {
 	/**
 	 * 
 	 * lookupFocusSPI:this will used {@link ServiceLoader} to load SPI which defined
-	 * in folder <B>META-INF/services</B>. <br/>
+	 * in folder <B>META-INF/services</B>. <br>
 	 * It will first to try to load instance from cached {@link ObjectPool}, if not
-	 * found, then try to load SPI class and instantiate it.<br/>
-	 * Notice: only load and instantiate focused SPI class in defined file</br>
+	 * found, then try to load SPI class and instantiate it.<br>
+	 * Notice: only load and instantiate focused SPI class in defined file<br>
 	 * 
 	 * @param <T>
 	 *            lookup SPI interface class
@@ -229,8 +225,6 @@ public abstract class LookupPool {
 	 *            constructor arguments
 	 * @return implementation of parameter spiInterface
 	 * 
-	 * @throws CheckerNoPassException
-	 *             when not found implementation SPI
 	 */
 	public <T> T lookupFocusSPI(Class<T> spiInterface, String focusClassName, Object... args) {
 		T object = null;
@@ -256,7 +250,7 @@ public abstract class LookupPool {
 
 	/**
 	 * 
-	 * register an instance, which key is object.getClass(). <br/>
+	 * register an instance, which key is object.getClass(). <br>
 	 * 
 	 * @param <T>
 	 *            registered object class type

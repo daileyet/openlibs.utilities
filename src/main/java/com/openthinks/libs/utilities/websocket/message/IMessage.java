@@ -1,6 +1,5 @@
 package com.openthinks.libs.utilities.websocket.message;
 
-
 /**
  * Interface of all communication message
  * 
@@ -8,27 +7,28 @@ package com.openthinks.libs.utilities.websocket.message;
  *
  */
 public interface IMessage {
-  /**
-   * get this type instance message content
-   * 
-   * @return message content
-   */
-  public <T extends Object> T getContent();
+	/**
+	 * get this type instance message content
+	 * 
+	 * @param <T>
+	 *            message content type
+	 * @return message content
+	 */
+	public <T extends Object> T getContent();
 
-  /**
-   * get this instance message type
-   * 
-   * @return message type
-   */
-  public String getType();
+	/**
+	 * get this instance message type
+	 * 
+	 * @return message type
+	 */
+	public String getType();
 
-
-  /**
-   * 
-   * getGroup:get this message group if it exits. <br/>
-   * 
-   * @return group name or empty
-   */
-  public String getGroup();
+	/**
+	 * 
+	 * getGroup:get this message group if it exits. <br>
+	 * 
+	 * @return group name or empty
+	 */
+	public String getGroup();
 
 }

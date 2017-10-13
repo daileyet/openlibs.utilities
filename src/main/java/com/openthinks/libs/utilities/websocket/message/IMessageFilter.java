@@ -3,20 +3,19 @@ package com.openthinks.libs.utilities.websocket.message;
 import com.openthinks.libs.utilities.websocket.support.IEndPointSession;
 
 /**
- * ClassName: IMessageFilter <br/>
- * Function: TODO FUNCTION description of this class. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Jul 27, 2017 9:26:21 PM <br/>
+ * ClassName: IMessageFilter <br>
+ * Function: TODO FUNCTION description of this class. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Jul 27, 2017 9:26:21 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version
  * @since JDK 1.8
  */
 @FunctionalInterface
 public interface IMessageFilter<E extends IMessage, T extends IEndPointSession> {
   /**
    * 
-   * match:judge assigned message is matched to given session or not. <br/>
+   * match:judge assigned message is matched to given session or not. <br>
    * 
    * <pre>
    * <code>
@@ -29,9 +28,9 @@ public interface IMessageFilter<E extends IMessage, T extends IEndPointSession> 
    * </pre>
    * 
    * @author dailey.dai@cn.bosch.com DAD2SZH
-   * @param message
-   * @param session
-   * @return
+   * @param message instance of {@link IMessage}
+   * @param session instance of {@link IEndPointSession}
+   * @return true or false
    * @since JDK 1.8
    */
   public boolean match(E message, T session);

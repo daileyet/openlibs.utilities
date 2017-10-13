@@ -13,13 +13,12 @@ import com.openthinks.libs.utilities.websocket.message.IConstant;
 import com.openthinks.libs.utilities.websocket.message.IMessage;
 
 /**
- * ClassName: AbstractEndPointSession <br/>
- * Function: TODO FUNCTION description of this class. <br/>
- * Reason: TODO why you add this class?(Optional). <br/>
- * date: Jul 26, 2017 2:51:51 PM <br/>
+ * ClassName: AbstractEndPointSession <br>
+ * Function: TODO FUNCTION description of this class. <br>
+ * Reason: TODO why you add this class?(Optional). <br>
+ * date: Jul 26, 2017 2:51:51 PM <br>
  * 
  * @author dailey.yet@outlook.com
- * @version
  * @since JDK 1.8
  */
 public abstract class AbstractEndPointSession implements IEndPointSession {
@@ -30,21 +29,11 @@ public abstract class AbstractEndPointSession implements IEndPointSession {
     this.session = session;
   }
 
-  /**
-   * TODO description the overrided function and changes.
-   * 
-   * @see com.bosch.ccu.cloud.web.websocket.support.IEndPointSession#isOpen()
-   */
   @Override
   public boolean isOpen() {
     return this.session.isOpen();
   }
 
-  /**
-   * TODO description the overrided function and changes.
-   * 
-   * @see com.bosch.ccu.cloud.web.websocket.support.IEndPointSession#getId()
-   */
   @Override
   public String getId() {
     return getGroup() + IConstant.JOIN_AT + session.getId();
