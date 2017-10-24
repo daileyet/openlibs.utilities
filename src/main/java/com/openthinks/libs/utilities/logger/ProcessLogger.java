@@ -56,9 +56,10 @@ public class ProcessLogger {
 		return currentLevel == null ? defaultLevel : currentLevel;
 	}
 
-	////////////////////////////////////PRIVATE METHOD////////////////////////////////////////////////
+	//////////////////////////////////// PRIVATE
+	//////////////////////////////////// METHOD////////////////////////////////////////////////
 	private static void _debug(String pattern, Object... args) {
-		getImplManager().createImpl().action(PLLevel.INFO, pattern, args);
+		getImplManager().createImpl().action(PLLevel.DEBUG, pattern, args);
 	}
 
 	private static void _info(String pattern, Object... args) {
@@ -97,7 +98,8 @@ public class ProcessLogger {
 		getImplManager().createImpl().action(PLLevel.FATAL, exs);
 	}
 
-	////////////////////////////////PUBLIC METHOD////////////////////////////////////////////////////
+	//////////////////////////////// PUBLIC
+	//////////////////////////////// METHOD////////////////////////////////////////////////////
 
 	public static void log(PLLevel plevel, String pattern, Object... args) {
 		switch (plevel) {
@@ -222,15 +224,17 @@ public class ProcessLogger {
 
 		@Override
 		public void action(PLLevel level, String pattern, Object... arguments) {
-			String msg = "";
+			String msg = pattern;
 			switch (level) {
 			case FATAL:
 			case ERROR:
 				System.err.print(level.name() + "=>");
-				try {
-					msg = MessageFormat.format(pattern, arguments);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (arguments != null && arguments.length > 0) {//FIX formatter error if arguments is empty
+					try {
+						msg = MessageFormat.format(pattern, arguments);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				System.err.print(msg);
 				break;
@@ -238,10 +242,12 @@ public class ProcessLogger {
 			case INFO:
 			case DEBUG:
 				System.out.print(level.name() + "=>");
-				try {
-					msg = MessageFormat.format(pattern, arguments);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (arguments != null && arguments.length > 0) {//FIX formatter error if arguments is empty
+					try {
+						msg = MessageFormat.format(pattern, arguments);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				System.out.print(msg);
 			}
