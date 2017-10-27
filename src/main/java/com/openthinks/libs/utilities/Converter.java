@@ -34,7 +34,7 @@ public final class Converter {
 
 	Object convertTo(Object source, Class<?> targetType) {
 		Object _source = source;
-		ConvertHandler handler = handlerMap.get(_source.getClass());
+		ConvertHandler handler = getCachedHandler(_source);
 		if (handler != null) {
 			handler.handSource(_source);
 			return handler.handTarget(targetType);
@@ -63,11 +63,27 @@ public final class Converter {
 		}
 	}
 
+	@SuppressWarnings("unused")
+	private ConvertHandler getCachedHandler(Object _source) {
+		Result<ConvertHandler> result = Result.valueOf(handlerMap.get(_source.getClass()));
+		if (!result.isNull()) {
+			return (ConvertHandler) result.get();
+		}
+		handlerMap.keySet().stream().filter((clz) -> {
+			return clz.isAssignableFrom(_source.getClass());
+		}).findFirst().ifPresent((keyClz) -> {
+			result.set(handlerMap.get(keyClz));
+		});
+		return (ConvertHandler) result.get();
+	}
+
 	/**
 	 * convert source to target type, <BR>
-	 * if source is array, try to convert the first element of the array to
-	 * target type.
-	 * @param <T> class instance type
+	 * if source is array, try to convert the first element of the array to target
+	 * type.
+	 * 
+	 * @param <T>
+	 *            class instance type
 	 * @param clazz
 	 *            target type
 	 * @return class instance
@@ -75,7 +91,7 @@ public final class Converter {
 	@SuppressWarnings("unchecked")
 	public <T> T convertToSingle(Class<T> clazz) {
 		Object _source = source;
-		ConvertHandler handler = handlerMap.get(_source.getClass());
+		ConvertHandler handler = getCachedHandler(_source);
 		if (handler != null) {
 			handler.handSource(_source);
 			return handler.handTarget(clazz);
@@ -100,7 +116,9 @@ public final class Converter {
 
 	/**
 	 * convert source array to target type array
-	 * @param <T> class instance type
+	 * 
+	 * @param <T>
+	 *            class instance type
 	 * @param clazz
 	 *            target array element type
 	 * @return ConvertArray
@@ -115,8 +133,10 @@ public final class Converter {
 	 * source:int[] array<br>
 	 * target:Integer[] array
 	 * 
-	 * @param <T> class instance type
-	 * @param clazz target array element type
+	 * @param <T>
+	 *            class instance type
+	 * @param clazz
+	 *            target array element type
 	 * @return array object
 	 */
 	protected <T> Object _convertToArray(Class<T> clazz) {
@@ -140,8 +160,10 @@ public final class Converter {
 	/**
 	 * convert to pure array
 	 * 
-	 * @param <T> class instance type
-	 * @param clazz target class type
+	 * @param <T>
+	 *            class instance type
+	 * @param clazz
+	 *            target class type
 	 * @return array of the class instance
 	 */
 	@SuppressWarnings("unchecked")
