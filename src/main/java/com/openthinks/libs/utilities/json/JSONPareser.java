@@ -3,8 +3,9 @@
  */
 package com.openthinks.libs.utilities.json;
 
-import java.util.Queue;
-import java.util.StringTokenizer;
+import com.openthinks.libs.utilities.json.support.JSONHolder;
+import com.openthinks.libs.utilities.json.support.JSONParseException;
+import com.openthinks.libs.utilities.json.support.JSONFinder;
 
 /**
  * @author dailey.yet@outlook.com
@@ -17,90 +18,91 @@ public final class JSONPareser {
 		this.strJSON = jsonString == null ? "" : jsonString.trim();
 	}
 
-	public final class JSONResultHolder {
-		private final Object result;
-
-		JSONResultHolder(Object result) {
-			this.result = result;
-		}
-
-		public boolean isArray() {
-			return this.result instanceof JSONArray;
-		}
-
-		public boolean isObject() {
-			return this.result instanceof JSONObject;
-		}
-
-		public JSONArray asArray() {
-			if (isArray())
-				return (JSONArray) result;
-			throw new UnMatcherTypeException("Not type of JSONArray");
-		}
-
-		public JSONObject asObject() {
-			if (isObject())
-				return (JSONObject) result;
-			throw new UnMatcherTypeException("Not type of JSONObject");
-		}
-	}
-
-	interface JSONToken {
-		char LBRACE = '{';
-		char RBRACE = '}';
-		char LBRACKET = '[';
-		char RBRACKET = ']';
-		char COMMA = ',';
-		char COLON = ':';
-	}
-
-	class ParseInfo {
-		int index = 0;
-		int mark = 0;
-		int totalLen = 0;
-	}
-
-	public JSONResultHolder parse() {
+	public JSONHolder parse() {
 		Object result = null;
 		// process index for json string
-		ParseInfo pi = new ParseInfo();
-		pi.totalLen = strJSON.length();
-		char startChar = strJSON.charAt(0);
+		JSONFinder finder = new JSONFinder(strJSON);
+		boolean remaining = finder.moveNext();
+		if (!remaining)
+			throw new JSONParseException("Invalid JSON format");
+		char startChar = finder.read();
 		switch (startChar) {
 		case JSONToken.LBRACE:
-			parseObj(pi);
+			result = JSON.object();
+			parseObj(finder, (JSONObject) result);
 			break;
 		case JSONToken.LBRACKET:
-			parseArr(pi);
+			parseArr(finder);
 			break;
 		default:
 			break;
 		}
 
-		return new JSONResultHolder(result);
+		return new JSONHolder(result);
 	}
 
-	private void parseArr(ParseInfo pi) {
+	private void parseArr(JSONFinder finder) {
 
 	}
 
-	private void parseObj(ParseInfo pi) {
-		do {
-			pi.index++;
-			char indexChar = strJSON.charAt(pi.index);
-			if(indexChar==JSONToken.COLON) {
-				pi.mark++;
-				System.out.println(strJSON.substring(pi.mark, pi.index));
+	private void parseObj(JSONFinder finder, JSONObject root) {
+		boolean isMarked = false;
+		while (finder.moveNext() && finder.read() != JSONToken.COLON) {
+			if (!isMarked)
+				finder.mark();
+		}
+		String property = unwrap(finder.getMarked());
+		boolean remaining = finder.moveNext();
+		if (!remaining)
+			throw new JSONParseException("Invalid JSON format");
+		char valStart = finder.read();
+		switch (valStart) {
+		case JSONToken.LBRACE:
+
+			break;
+		case JSONToken.LBRACKET:
+
+			break;
+		default:
+			finder.mark();
+			if (valStart == JSONToken.DOUBLE_QUOTE) {
+
+			} else {
+				while (finder.moveNext() && (finder.read() != JSONToken.COMMA || finder.read() != JSONToken.RBRACE
+						|| finder.read() != JSONToken.RBRACKET)) {
+				}
+				finder.getMarked();
 			}
-			
-		} while (pi.index < pi.totalLen-1);
 
+			break;
+		}
+
+	}
+
+	private String unwrap(char[] marked) {
+		int len = marked.length;
+		if (marked[0] == marked[len - 1] && marked[0] == JSONToken.DOUBLE_QUOTE) {
+			return String.valueOf(marked, 1, len - 2);
+		}
+		return String.valueOf(marked);
 	}
 
 	public static void main(String[] args) {
-		final String strJSON = "{\"key1\":1,\"key2\":\"ab,c\",\"key3\":true,\"key4\":{\"sukey4-1\":1,\"sukey4-2\":false},\"key5\":[1,2,3]}";
-		JSONPareser parser= new JSONPareser(strJSON);
-		parser.parse();
+		String strJSON = "{\"key1\":1,\"key2\":\"ab,c\",\"key3\":true,\"key4\":{\"sukey4-1\":1,\"sukey4-2\":false},\"key5\":[1,2,3]}";
+		// JSONPareser parser = new JSONPareser(strJSON);
+		// parser.parse();
+		//
+		strJSON = "{\"key\":\"a \\\" b\"}";
+
+		for (char c : strJSON.toCharArray()) {
+			System.out.print(c);
+			if (c == JSONToken.ESCAPE) {
+				System.out.print(" >>>");
+			}
+			System.out.println();
+		}
+
+		System.out.println(JSONToken.ESCAPE);
 	}
 
 }

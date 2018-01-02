@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.openthinks.libs.utilities.json;
+package com.openthinks.libs.utilities.json.support;
 
 /**
  * @author dailey.yet@outlook.com
