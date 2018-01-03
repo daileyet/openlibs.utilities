@@ -5,14 +5,14 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 
-public final class JSONArray extends LinkedList<JSONObject> implements Serializable {
+public final class JSONArray extends LinkedList<Object> implements Serializable {
 	private static final long serialVersionUID = 3030798354129233047L;
 
 	JSONArray() {
 		super();
 	}
 
-	JSONArray(Collection<? extends JSONObject> jsonObjects) {
+	JSONArray(Collection<? extends Object> jsonObjects) {
 		super(jsonObjects);
 	}
 

@@ -7,7 +7,7 @@ public interface JSONToken {
 	char RBRACKET = ']';
 	char COMMA = ',';
 	char COLON = ':';
-	char DOUBLE_QUOTE = '"';
+	char DOUBLE_QUOTE = '\"';
 	char SINGLE_QUOTE = '\'';
 	
 	char ESCAPE = '\\';
