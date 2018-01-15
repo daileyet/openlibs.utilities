@@ -29,27 +29,37 @@ import com.openthinks.libs.utilities.version.VersionCenter;
 
 /**
  * openthinks.libs.utilities version class
+ * 
  * @author dailey.yet@outlook.com
  *
  */
-@AppVersion("1.2")
+@AppVersion("1.2.1")
 public class Versions extends VersionCenter {
-
 	/**
 	 * @change
-	 * <ul>
-	 * 	<li>Add package com.openthinks.libs.utilities.websocket</li>
-	 * 	<li>Add package com.openthinks.libs.utilities.lookup</li>
-	 *  <li>Modify com.openthinks.libs.utilities.pools.object.ObjectPool</li>
-	 *  <li>Modify com.openthinks.libs.utilities.logger.ProcessLogger</li>
-	 * </ul>
+	 *         <ul>
+	 *         <li>add package com.openthinks.libs.utilities.json</li>
+	 *         <li>remove package com.openthinks.libs.utilities.websocket</li>
+	 *         <li>enhance com.openthinks.libs.utilities.lookup.LookupPool</li>
+	 *         <li>rename LookupPools to Lookups</li>
+	 *         </ul>
+	 */
+	String v_1_2_1;
+	/**
+	 * @change
+	 *         <ul>
+	 *         <li>Add package com.openthinks.libs.utilities.websocket</li>
+	 *         <li>Add package com.openthinks.libs.utilities.lookup</li>
+	 *         <li>Modify com.openthinks.libs.utilities.pools.object.ObjectPool</li>
+	 *         <li>Modify com.openthinks.libs.utilities.logger.ProcessLogger</li>
+	 *         </ul>
 	 */
 	String v_1_2;
 	/**
 	 * @change
-	 * <ul>
-	 * 	<li>Add ObjectPool and SharedContext</li>
-	 * </ul>
+	 *         <ul>
+	 *         <li>Add ObjectPool and SharedContext</li>
+	 *         </ul>
 	 */
 	String v_1_1;
 	/**

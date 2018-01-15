@@ -133,7 +133,4 @@ public final class JSONObject extends LinkedHashMap<String, Object> implements S
     remove(propertyName);
     return this;
   }
-
-
-  //////////////////
 }

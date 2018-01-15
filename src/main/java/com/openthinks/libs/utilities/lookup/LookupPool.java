@@ -1,5 +1,8 @@
 package com.openthinks.libs.utilities.lookup;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -8,7 +11,6 @@ import com.openthinks.libs.utilities.Checker;
 import com.openthinks.libs.utilities.InstanceUtilities;
 import com.openthinks.libs.utilities.InstanceUtilities.InstanceWrapper;
 import com.openthinks.libs.utilities.pools.object.ObjectPool;
-
 
 /**
  * ClassName: LookupPool <br>
@@ -246,6 +248,82 @@ public abstract class LookupPool {
 			}
 		}
 		return object;
+	}
+
+	/**
+	 * 
+	 * lookupSPISkipCache:this will used {@link ServiceLoader} to load SPI which
+	 * defined in folder <B>META-INF/services</B>. <br/>
+	 * It will do load SPI skip cache each time, not try to lookup from cache
+	 * firstly.<br/>
+	 * Notice: only load and instantiate first SPI class in defined file</br>
+	 * 
+	 * @param <T>
+	 *            lookup SPI interface class
+	 * @param spiInterface
+	 *            SPI interface or abstract class type
+	 * @param args
+	 *            constructor arguments
+	 * @return implementation of parameter spiInterface
+	 * @throws CheckerNoPassException
+	 *             when not found implementation SPI
+	 */
+	public <T> T lookupSPISkipCache(Class<T> spiInterface, Object... args) {
+		return lookupFocusSPISkipCache(spiInterface, null, args);
+	}
+
+	/**
+	 * 
+	 * lookupFocusSPISkipCache:this will used {@link ServiceLoader} to load SPI
+	 * which defined in folder <B>META-INF/services</B>. <br/>
+	 * It will do load SPI skip cache each time, not try to lookup from cache
+	 * firstly.<br/>
+	 * Notice: only load and instantiate focused SPI class in defined file</br>
+	 * 
+	 * @param <T>
+	 *            lookup SPI interface class
+	 * @param spiInterface
+	 *            SPI interface or abstract class type
+	 * @param focusClassName
+	 *            focused SPI implementation class name
+	 * @param args
+	 *            constructor arguments
+	 * @return implementation of parameter spiInterface
+	 * 
+	 * @throws CheckerNoPassException
+	 *             when not found implementation SPI
+	 */
+	public <T> T lookupFocusSPISkipCache(Class<T> spiInterface, String focusClassName, Object... args) {
+		T object = null;
+		ServiceLoader<T> serviceLoader = ServiceLoader.load(spiInterface, focusClassName, args);
+		object = serviceLoader.iterator().next();// TODO use this.classLoader and Thread current classLoader
+		Checker.require(object).notNull("Cannot found SPI implementation for " + spiInterface);
+		return object;
+	}
+
+	/**
+	 * 
+	 * lookupAllSPI:fina all instance of SPI implementation. <br>
+	 * Notice:<BR>
+	 * <li>all implementation need default constructor.
+	 * <li>do not search from cache
+	 * 
+	 * @param spiInterface
+	 *            SPI interface or abstract class type
+	 * @return list of all SPI implementation instance
+	 */
+	public <T> List<T> lookupAllSPI(Class<T> spiInterface) {
+		List<T> list = new ArrayList<>();
+		ServiceLoader<T> serviceLoader = ServiceLoader.load(spiInterface);
+		Iterator<T> iterator = serviceLoader.iterator();
+		while (iterator.hasNext()) {
+			try {
+				list.add(iterator.next());
+			} catch (Exception e) {
+				// ignore
+			}
+		}
+		return list;
 	}
 
 	/**

@@ -6,13 +6,13 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * ClassName: LookupPools <br>
+ * ClassName: Lookups <br>
  * Function: utilities of {@link LookupPool}. <br>
  * date: Sep 8, 2017 3:39:12 PM <br>
  * 
  * @author dailey.dai@outlook.com
  */
-public final class LookupPools {
+public final class Lookups {
 
 	/**
 	 * 
@@ -78,7 +78,7 @@ public final class LookupPools {
 		};
 	}
 
-	private LookupPools() {
+	private Lookups() {
 	}
 
 	private static final Map<String, LookupPool> cachedLookups = new ConcurrentHashMap<>();
