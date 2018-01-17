@@ -26,8 +26,9 @@ public final class JSONObject extends LinkedHashMap<String, Object> implements S
   }
 
   /**
-   * get property value by property name from this JSON object, and cast assigned type
+   * get property value by property name from this JSON object, and cast assigned type <BR>
    * 
+   * @param <T> property type
    * @param propertyName property name
    * @param propertyType property type
    * @return property value

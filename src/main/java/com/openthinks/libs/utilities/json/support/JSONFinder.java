@@ -103,7 +103,7 @@ public class JSONFinder {
   /**
    * 判断后续的几个字符是给定的字符，不跳过空字符,不会移动指针
    * 
-   * @param assignedChars
+   * @param assignedChars char array
    * @return true or false
    */
   public boolean assertNext(char... assignedChars) {
