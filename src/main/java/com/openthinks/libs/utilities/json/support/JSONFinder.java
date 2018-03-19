@@ -188,7 +188,7 @@ public class JSONFinder {
 				if (isContainPoint) {
 					return Double.parseDouble(builder.toString());
 				} else {
-					return Integer.parseInt(builder.toString());
+					return Long.parseLong(builder.toString());
 				}
 			} catch (NumberFormatException e) {
 			}
