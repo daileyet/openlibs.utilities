@@ -60,14 +60,52 @@ public class Checker {
 			this.requireObject = requireObject;
 		}
 
+		/**
+		 * check the requirer is primitive int or Integer type
+		 * @param args
+		 */
+		public void isInteger(String... args) {
+			if (requireObject == null)
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),
+						CommonUtilities.toString4Array(args));
+			try {
+				Integer.valueOf(requireObject.toString().trim());
+			} catch (Exception e) {
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),
+						CommonUtilities.toString4Array(args));
+			}
+		}
+		
+		/**
+		 * check the requirer is primitive long or Long type
+		 * @param args
+		 */
+		public void isLong(String... args) {
+			if (requireObject == null)
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),
+						CommonUtilities.toString4Array(args));
+			try {
+				Long.valueOf(requireObject.toString().trim());
+			} catch (Exception e) {
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),
+						CommonUtilities.toString4Array(args));
+			}
+		}
+		/**
+		 * check the requirer is not null
+		 * @param args
+		 */
 		public void notNull(String... args) {
-
 			if (requireObject == null) {
 				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),
 						CommonUtilities.toString4Array(args));
 			}
 		}
 
+		/**
+		 * check the requirer is not blank
+		 * @param args
+		 */
 		public void notEmpty(String... args) {
 			notNull(args);
 			if ("".equals(requireObject)) {

@@ -1,5 +1,6 @@
 package com.openthinks.libs.utilities;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public final class Result<T> {
@@ -9,9 +10,17 @@ public final class Result<T> {
 		super();
 		this.value = value;
 	}
+	
+	public Result() {
+		super();
+	}
 
 	public T get() {
 		return value;
+	}
+	
+	public Optional<T> getOptional(){
+		return Optional.ofNullable(value);
 	}
 
 	public void set(T value) {
