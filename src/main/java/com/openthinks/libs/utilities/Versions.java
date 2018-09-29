@@ -24,7 +24,6 @@
 */
 package com.openthinks.libs.utilities;
 
-import com.openthinks.libs.utilities.logger.ProcessLogger;
 import com.openthinks.libs.utilities.version.AppVersion;
 import com.openthinks.libs.utilities.version.VersionCenter;
 
@@ -42,6 +41,7 @@ public class Versions extends VersionCenter {
 	 *         <li>add package com.openthinks.libs.utilities.handler</li>
 	 *         <li>add package com.openthinks.libs.utilities.net</li>
 	 *         <li>add {@link DateUtils}</li>
+	 *         <li>add {@link NIOByteUtils}</li>
 	 *         <li>Modify package com.openthinks.libs.utilities.collection</li>
 	 *         <li>add trace level in {@link ProcessLogger}</li>
 	 *         </ul>
