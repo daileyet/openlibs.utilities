@@ -9,6 +9,7 @@ import java.util.function.Predicate;
  * @author dailey.yet@outlook.com
  *
  */
-public interface TreeFilter extends Predicate<TreeNode> {
+public interface TreeFilter<T> extends Predicate<TreeNode<T>> {
 
 }
+

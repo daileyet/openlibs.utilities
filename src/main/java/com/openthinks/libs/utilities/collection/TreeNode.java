@@ -11,43 +11,47 @@ import java.util.List;
  * @author dailey.yet@outlook.com
  *
  */
-public class TreeNode implements Serializable{
-	private static final long serialVersionUID = 836966324091263005L;
-	private Object data;
-	private final TreeNode parent;
-	private final List<TreeNode> children = new ArrayList<>();
+public class TreeNode<T> implements Serializable {
+	  private static final long serialVersionUID = 836966324091263005L;
+	  private T data;
+	  private final TreeNode<T> parent;
+	  private final List<TreeNode<T>> children = new ArrayList<>();
 
-	public TreeNode(Object data) {
-		this.data = data;
-		this.parent = null;
-	}
+	  public TreeNode(T data) {
+	    this.data = data;
+	    this.parent = null;
+	  }
 
-	public TreeNode(TreeNode parent, Object data) {
-		this.data = data;
-		this.parent = parent;
-		addToParent();
-	}
+	  public TreeNode(TreeNode<T> parent, T data) {
+	    this.data = data;
+	    this.parent = parent;
+	    addToParent();
+	  }
 
-	public Object getData() {
-		return data;
-	}
+	  public T getData() {
+	    return data;
+	  }
 
-	public void setData(Object data) {
-		this.data = data;
-	}
+	  public void setData(T data) {
+	    this.data = data;
+	  }
 
-	public TreeNode getParent() {
-		return parent;
-	}
+	  public TreeNode<T> getParent() {
+	    return parent;
+	  }
 
-	public List<TreeNode> getChildren() {
-		return children;
-	}
-	
-	void addToParent() {
-		if (this.parent == null)
-			throw new IllegalArgumentException("Parent node not exist");
-		this.parent.children.add(this);
-	}
+	  public List<TreeNode<T>> getChildren() {
+	    return children;
+	  }
 
-}
+	  public boolean isEmpty() {
+	    return children.isEmpty();
+	  }
+
+	  void addToParent() {
+	    if (this.parent == null)
+	      throw new IllegalArgumentException("Parent node not exist");
+	    this.parent.children.add(this);
+	  }
+
+	}

@@ -62,7 +62,7 @@ public class Checker {
 
 		/**
 		 * check the requirer is primitive int or Integer type
-		 * @param args
+		 * @param args error messages
 		 */
 		public void isInteger(String... args) {
 			if (requireObject == null)
@@ -78,7 +78,7 @@ public class Checker {
 		
 		/**
 		 * check the requirer is primitive long or Long type
-		 * @param args
+		 * @param args error messages
 		 */
 		public void isLong(String... args) {
 			if (requireObject == null)
@@ -93,7 +93,7 @@ public class Checker {
 		}
 		/**
 		 * check the requirer is not null
-		 * @param args
+		 * @param args error messages
 		 */
 		public void notNull(String... args) {
 			if (requireObject == null) {
@@ -104,7 +104,7 @@ public class Checker {
 
 		/**
 		 * check the requirer is not blank
-		 * @param args
+		 * @param args error messages
 		 */
 		public void notEmpty(String... args) {
 			notNull(args);

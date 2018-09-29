@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -34,18 +35,25 @@ public final class DateFormatUtil {
 	 *             - if the given pattern is invalid
 	 */
 	public static final DateFormat getDateFormat(String pattern) {
-		ThreadLocal<DateFormat> threadLocal = formatCache.get(pattern);
+		return getDateFormat(pattern,TimeZone.getDefault());
+	}
+
+	public static final DateFormat getDateFormat(String pattern, TimeZone timeZone) {
+		String key = getKey(pattern,timeZone);
+		ThreadLocal<DateFormat> threadLocal = formatCache.get(key);
 		if (threadLocal == null) {
 			synchronized (DateFormatUtil.class) {
-				threadLocal = formatCache.get(pattern);
+				threadLocal = formatCache.get(key);
 				if (threadLocal == null) {
 					threadLocal = new ThreadLocal<DateFormat>() {
 						@Override
 						protected DateFormat initialValue() {
-							return new SimpleDateFormat(pattern);
+							DateFormat dateFormat = new SimpleDateFormat(pattern);
+							dateFormat.setTimeZone(timeZone);
+							return dateFormat;
 						}
 					};
-					formatCache.put(pattern, threadLocal);
+					formatCache.put(key, threadLocal);
 				}
 			}
 		}
@@ -58,5 +66,17 @@ public final class DateFormatUtil {
 
 	public static final Date parse(String pattern, String dateString) throws ParseException {
 		return getDateFormat(pattern).parse(dateString);
+	}
+	
+	public static final String format(String pattern, Date date, TimeZone timeZone) {
+		return getDateFormat(pattern,timeZone).format(date);
+	}
+
+	public static final Date parse(String pattern, String dateString, TimeZone timeZone) throws ParseException {
+		return getDateFormat(pattern,timeZone).parse(dateString);
+	}
+	
+	private static final String getKey(String pattern, TimeZone timeZone) {
+		return pattern.concat(timeZone.getID());
 	}
 }

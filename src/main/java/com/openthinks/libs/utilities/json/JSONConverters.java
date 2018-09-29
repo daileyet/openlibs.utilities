@@ -41,7 +41,7 @@ public final class JSONConverters {
 		}
 	}// end of register
 	
-	public void reload(String classPathResourceName) {
+	public static void reload(String classPathResourceName) {
 		try {
 			ConfigureLoader.load(classPathResourceName);
 		} catch (IOException e) {
@@ -54,7 +54,7 @@ public final class JSONConverters {
 	}
 
 	public static JSONObject perparedAndGet(final Object bizObj) {
-		JSONObjectConverter conveter = cacheMap.getOrDefault(bizObj.getClass(), DEFAULT);
+		JSONObjectConverter conveter = cacheMap.getOrDefault(bizObj.getClass(), DEFAULT_CONVETER);
 		return conveter.convert(bizObj);
 	}
 
@@ -69,7 +69,7 @@ public final class JSONConverters {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	//default converter
-	static final JSONObjectConverter DEFAULT = (obj) -> {
+	public static final JSONObjectConverter DEFAULT = (obj) -> {
 		Class<?> bizModelClazz = obj.getClass();
 		JSONObject jsonObj = JSON.object();
 		Field[] fields = bizModelClazz.getDeclaredFields();
@@ -85,7 +85,35 @@ public final class JSONConverters {
 		}
 		return jsonObj;
 	};
+	
+	public static final JSONObjectConverter DEFAULT_UNDER_LINE = (obj) -> {
+		Class<?> bizModelClazz = obj.getClass();
+		JSONObject jsonObj = JSON.object();
+		Field[] fields = bizModelClazz.getDeclaredFields();
+		for (int i = 0, j = fields.length; i < j; i++) {
+			String fieldName = fields[i].getName();
+			String jsonKey = Underline2Camel.camel2Underline(fieldName).toLowerCase();
+			try {
+				PropertyDescriptor pd = ConfigureLoader.find(bizModelClazz, fieldName);
+				jsonObj.addProperty(jsonKey, pd.getReadMethod().invoke(obj));
+			} catch (IntrospectionException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException e) {
+				ProcessLogger.warn("Faile to load property {0} value for {1}:", obj, e);
+			}
+		}
+		return jsonObj;
+	};
 
+    volatile static JSONObjectConverter DEFAULT_CONVETER = DEFAULT;
+	
+	public synchronized static final void ativeDefaultConveterAsUnderline() {
+		DEFAULT_CONVETER = DEFAULT_UNDER_LINE;
+	}
+	
+	public synchronized static final void ativeDefaultConveterAsCamel() {
+		DEFAULT_CONVETER = DEFAULT;
+	}
+	
 	/**
 	 * 
 	 * 配置文件加载类，负责加载配置文件并初始化配置<BR>

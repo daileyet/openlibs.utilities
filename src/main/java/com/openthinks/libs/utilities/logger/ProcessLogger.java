@@ -58,6 +58,10 @@ public class ProcessLogger {
 
 	//////////////////////////////////// PRIVATE
 	//////////////////////////////////// METHOD////////////////////////////////////////////////
+	private static void _trace(String pattern, Object... args) {
+		getImplManager().createImpl().action(PLLevel.TRACE, pattern, args);
+	}
+	
 	private static void _debug(String pattern, Object... args) {
 		getImplManager().createImpl().action(PLLevel.DEBUG, pattern, args);
 	}
@@ -78,6 +82,10 @@ public class ProcessLogger {
 		getImplManager().createImpl().action(PLLevel.FATAL, pattern, args);
 	}
 
+	private static void _trace(Exception... exs) {
+		getImplManager().createImpl().action(PLLevel.TRACE, exs);
+	}
+	
 	private static void _debug(Exception... exs) {
 		getImplManager().createImpl().action(PLLevel.DEBUG, exs);
 	}
@@ -103,6 +111,9 @@ public class ProcessLogger {
 
 	public static void log(PLLevel plevel, String pattern, Object... args) {
 		switch (plevel) {
+		case TRACE:
+			trace(pattern, args);
+			break;
 		case DEBUG:
 			debug(pattern, args);
 			break;
@@ -123,6 +134,12 @@ public class ProcessLogger {
 		}
 	}
 
+	public static void trace(String pattern, Object... args) {
+		if (currentLevel().compareTo(PLLevel.TRACE) >= 0)
+			_trace(pattern, args);
+	}
+
+	
 	public static void debug(String pattern, Object... args) {
 		if (currentLevel().compareTo(PLLevel.DEBUG) >= 0)
 			_debug(pattern, args);
@@ -148,6 +165,11 @@ public class ProcessLogger {
 			_fatal(pattern, args);
 	}
 
+	public static void trace(Exception... exs) {
+		if (currentLevel().compareTo(PLLevel.TRACE) >= 0)
+			_trace(exs);
+	}
+	
 	public static void debug(Exception... exs) {
 		if (currentLevel().compareTo(PLLevel.DEBUG) >= 0)
 			_debug(exs);
@@ -181,7 +203,7 @@ public class ProcessLogger {
 	 *
 	 */
 	public enum PLLevel {
-		FATAL, ERROR, WARN, INFO, DEBUG;
+		FATAL, ERROR, WARN, INFO, DEBUG,TRACE;
 
 		public static PLLevel build(String level) {
 			try {
@@ -241,6 +263,7 @@ public class ProcessLogger {
 			case WARN:
 			case INFO:
 			case DEBUG:
+			case TRACE:
 				System.out.print(level.name() + "=>");
 				if (arguments != null && arguments.length > 0) {//FIX formatter error if arguments is empty
 					try {
@@ -269,6 +292,7 @@ public class ProcessLogger {
 			case WARN:
 			case INFO:
 			case DEBUG:
+			case TRACE:
 				System.out.println(level.name() + "=>");
 				for (Exception ex : _exs) {
 					ex.printStackTrace(System.out);
