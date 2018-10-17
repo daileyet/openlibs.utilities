@@ -8,36 +8,33 @@ import java.util.function.Supplier;
  * Function: 父层的{@link Handler}，没有具体的业务，只负责路由到具体的业务{@link Handler}和调用. <br>
  * date: May 29, 2018 2:30:36 PM <br>
  * 
- * <p>
  * <B>This(HandlerDispatcher) way by GroupHandler to condition judge</B>:
  * 
  * <pre>
  * <code>
- * class DemoService extends AdvanceHandlerDispatcher<CommData>{
+ * class DemoService extends AdvanceHandlerDispatcher&lt;CommData&gt;{
  * 
  *  public void onDataReceived(CommData data){
  *     byte commandId = CommDataUtil.getCommandId(data); 
  *     getHandlerOrDefault(commandId,Handler.empty()).process(data);
  *  }
  *  &#64;MappedByte(1)
- *  final Handler<CommData> topHandler1 = (data)->{};
+ *  final Handler&lt;CommData&gt; topHandler1 = (data)-&gt;{};
  *  &#64;MappedByte(2)
- *  final Handler<CommData> topHandler2 = (data)->{};
+ *  final Handler&lt;CommData&gt; topHandler2 = (data)-&gt;{};
  *  &#64;MappedByte(3)
- *  final GroupHandler<CommData> topHandler3 = GroupHandler.buildByte(this,(data) -> (CommDataUtil.getContentAt(data, 0) ));
+ *  final GroupHandler&lt;CommData&gt; topHandler3 = GroupHandler.buildByte(this,(data) -&gt; (CommDataUtil.getContentAt(data, 0) ));
  *  &#64;GroupRef("topHandler3")
  *  &#64;MappedByte(1)
- *  final Handler<CommData> topHandler1 = (data)->{};    
+ *  final Handler&lt;CommData&gt; topHandler1 = (data)-&gt;{};    
  *  &#64;GroupRef("topHandler3")
  *  &#64;MappedByte(2)
- *  final Handler<CommData> topHandler1 = (data)->{};
+ *  final Handler&lt;CommData&gt; topHandler1 = (data)-&gt;{};
  *  
  * }
  * </code>
  * </pre>
- * </p>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
  * @since JDK 1.8
  */
 public interface GroupHandler<T> extends Handler<T> {
@@ -46,7 +43,6 @@ public interface GroupHandler<T> extends Handler<T> {
    * 
    * resolve: 从处理的对象中获取条件值，以便映射到具体的业务{@link Handler}. <br>
    * 
-   * @author dailey.dai@cn.bosch.com DAD2SZH
    * @param data 带有条件值的待处理数据
    * @return String
    */
@@ -70,8 +66,6 @@ public interface GroupHandler<T> extends Handler<T> {
    * ClassName: MappedKeyResolver <br>
    * Function: 映射key函数. <br>
    * date: May 29, 2018 3:15:10 PM <br>
-   * 
-   * @author dailey.dai@cn.bosch.com DAD2SZH
    */
   public interface MappedResolver<T> extends Function<T, String> {
   }
@@ -86,8 +80,7 @@ public interface GroupHandler<T> extends Handler<T> {
    * 
    * build:创建{@link GroupHandler}实例. <br>
    * 注意：在传递executor时注意是否为空及初始化顺序.<br>
-   * 
-   * @author dailey.dai@cn.bosch.com DAD2SZH
+   * @param <T> group handler data type
    * @param executor {@link HandlerDispatcher}
    * @param resolver {@link MappedResolver}
    * @return {@link GroupHandler}

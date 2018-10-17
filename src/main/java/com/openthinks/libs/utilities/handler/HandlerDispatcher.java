@@ -6,7 +6,6 @@ package com.openthinks.libs.utilities.handler;
  * Function: {@link Handler}的分发器. <br>
  * Reason: 避免重复进行条件判断，分离逻辑控制和业务处理.<br>
  * date: May 9, 2018 4:27:33 PM <br>
- * <p>
  * <B>Old way to condition judge</B>:
  * 
  * <pre>
@@ -33,25 +32,23 @@ package com.openthinks.libs.utilities.handler;
  * }
  * </code>
  * </pre>
- * </p>
  * *
- * <p>
  * <B>This(HandlerDispatcher) way to condition judge</B>:
  * 
  * <pre>
  * <code>
- * class DemoService extends AdvanceHandlerDispatcher<CommData>{
+ * class DemoService extends AdvanceHandlerDispatcher&lt;CommData&gt;{
  * 
  *  public void onDataReceived(CommData data){
  *     byte commandId = CommDataUtil.getCommandId(data); 
  *     getHandlerOrDefault(commandId,Handler.empty()).process(data);
  *  }
  *  &#64;MappedByte(1)
- *  final Handler<CommData> topHandler1 = (data)->{};
+ *  final Handler&lt;CommData&gt; topHandler1 = (data)-&gt;{};
  *  &#64;MappedByte(2)
- *  final Handler<CommData> topHandler2 = (data)->{};
+ *  final Handler&lt;CommData&gt; topHandler2 = (data)-&gt;{};
  *  &#64;MappedByte(3)
- *  final Handler<CommData> topHandler3 = new Handler<>(){
+ *  final Handler&lt;CommData&gt; topHandler3 = new Handler&lt;&gt;(){
  *      void process(CommData data){
  *          byte subCommand = CommDataUtil.getContentAt(data, 0); 
  *          getHandlerOrDefault(subCommand,Handler.empty()).process(data);
@@ -59,18 +56,16 @@ package com.openthinks.libs.utilities.handler;
  *  }
  *  &#64;GroupRef("topHandler3")
  *  &#64;MappedByte(1)
- *  final Handler<CommData> topHandler1 = (data)->{};    
+ *  final Handler&lt;CommData&gt; topHandler1 = (data)-&gt;{};    
  *  &#64;GroupRef("topHandler3")
  *  &#64;MappedByte(2)
- *  final Handler<CommData> topHandler1 = (data)->{};
+ *  final Handler&lt;CommData&gt; topHandler1 = (data)-&gt;{};
  *  
  * }
  * </code>
  * </pre>
- * </p>
  * 
- * @param <T> the data need process
- * @author dailey.dai@cn.bosch.com DAD2SZH
+ * @param <V> the data need process
  * @see GroupHandler
  * @since JDK 1.8
  */

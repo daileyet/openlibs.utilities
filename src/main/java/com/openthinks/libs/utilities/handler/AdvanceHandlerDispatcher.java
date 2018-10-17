@@ -26,7 +26,6 @@ import com.openthinks.libs.utilities.logger.ProcessLogger;
  * Function: without hierarchy limitation, could dispatch more than 3 level. <br>
  * date: May 31, 2018 3:40:11 PM <br>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
  * @since JDK 1.8
  */
 public class AdvanceHandlerDispatcher<V> implements HandlerDispatcher<V> {

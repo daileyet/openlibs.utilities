@@ -13,7 +13,6 @@ import java.lang.annotation.Target;
  * Reason: 通过该注解进行扫描和识别 Handler. <br>
  * date: May 9, 2018 4:19:58 PM <br>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
  * @since JDK 1.8
  */
 public @interface Mapped {
@@ -21,6 +20,7 @@ public @interface Mapped {
 
   /**
    * 绑定key值
+   * @return string key
    */
   String value();
 

@@ -1,15 +1,15 @@
 package com.openthinks.libs.utilities.net;
 
 /**
- * ClassName: Lifecycle is the top level interface for all clients and servers<br/>
- * date: 2017-6-1 下午3:31:48 <br/>
+ * ClassName: Lifecycle is the top level interface for all clients and servers<br>
+ * date: 2017-6-1 下午3:31:48 <br>
  * 
  * @since JDK 1.8
  */
 public interface Lifecycle {
   /**
    * 
-   * start: start the client<br/>
+   * start: start the client<br>
    */
   void start();
 

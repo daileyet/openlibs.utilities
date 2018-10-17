@@ -7,7 +7,6 @@ package com.openthinks.libs.utilities.handler;
  * date: May 9, 2018 4:18:27 PM <br>
  * 
  * @param <T> the data need process
- * @author dailey.dai@cn.bosch.com DAD2SZH
  * @see GroupHandler
  * @since JDK 1.8
  */

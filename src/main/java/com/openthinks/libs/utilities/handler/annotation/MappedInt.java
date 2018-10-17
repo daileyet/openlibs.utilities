@@ -15,7 +15,6 @@ import java.lang.annotation.Target;
  * Reason: 通过该注解进行扫描和识别 Handler. <br>
  * date: May 29, 2018 4:24:15 PM <br>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
  * @since JDK 1.8
  */
 public @interface MappedInt {
@@ -23,6 +22,7 @@ public @interface MappedInt {
 
   /**
    * 绑定key值
+   * @return int key
    */
   int value();
 

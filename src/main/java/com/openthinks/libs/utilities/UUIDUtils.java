@@ -3,8 +3,8 @@ package com.openthinks.libs.utilities;
 import java.util.UUID;
 
 /**
- * ClassName: UUIDUtils </br>
- * date: Aug 10, 2018 2:21:25 PM </br>
+ * ClassName: UUIDUtils <br>
+ * date: Aug 10, 2018 2:21:25 PM <br>
  */
 public final class UUIDUtils {
   private UUIDUtils() {}
@@ -17,7 +17,7 @@ public final class UUIDUtils {
 
   /**
    * 
-   * genShortUUID:generate short UUID with 8 bytes. </br>
+   * genShortUUID:generate short UUID with 8 bytes. <br>
    * 
    * @return String short UUID which length is 8
    */

@@ -15,7 +15,6 @@ import java.lang.annotation.Target;
  * Reason: 通过该注解进行扫描和识别 Handler. <br>
  * date: Sep 18, 2018 4:24:15 PM <br>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
  * @since JDK 1.8
  */
 public @interface MappedShort {
@@ -23,6 +22,7 @@ public @interface MappedShort {
 
   /**
    * 绑定key值
+   * @return short key
    */
   short value();
 

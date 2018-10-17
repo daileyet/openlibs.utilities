@@ -5,7 +5,7 @@ import java.util.*;
 import java.lang.reflect.Array;
 
 /**
- * <font color=red>This class is one duplicated class of java.swing.event.EventListenerList, because it is not in t-box JVM</font>
+ * <span style="color:red">This class is one duplicated class of java.swing.event.EventListenerList, because it is not in t-box JVM</span>
  * 
  * A class that holds a list of EventListeners.  A single instance
  * can be used to hold all listeners (of all types) for the instance
@@ -97,6 +97,7 @@ public class EventListenerList implements Serializable {
      * any such manipulation is necessary, it should be done
      * on a copy of the array returned rather than the array
      * itself.
+     * @return event listener array
      */
     public Object[] getListenerList() {
         return listenerList;
@@ -104,13 +105,14 @@ public class EventListenerList implements Serializable {
 
     /**
      * Return an array of all the listeners of the given type.
+     * @param <T> event listener
+     * @param t event listener class type
      * @return all of the listeners of the specified type.
      * @exception  ClassCastException if the supplied class
      *          is not assignable to EventListener
      *
      * @since 1.3
      */
-
     @SuppressWarnings("unchecked")
     public <T extends EventListener> T[] getListeners(Class<T> t) {
         Object[] lList = listenerList;
@@ -127,6 +129,7 @@ public class EventListenerList implements Serializable {
 
     /**
      * Returns the total number of listeners for this listener list.
+     * @return event listener count
      */
     public int getListenerCount() {
         return listenerList.length/2;
@@ -135,6 +138,8 @@ public class EventListenerList implements Serializable {
     /**
      * Returns the total number of listeners of the supplied type
      * for this listener list.
+     * @param t event listener class type
+     * @return event listener count for special type
      */
     public int getListenerCount(Class<?> t) {
         Object[] lList = listenerList;
@@ -153,6 +158,7 @@ public class EventListenerList implements Serializable {
 
     /**
      * Adds the listener as a listener of the specified type.
+     * @param <T> event listener
      * @param t the type of the listener to be added
      * @param l the listener to be added
      */
@@ -186,6 +192,7 @@ public class EventListenerList implements Serializable {
 
     /**
      * Removes the listener as a listener of the specified type.
+     * @param <T> event listener
      * @param t the type of the listener to be removed
      * @param l the listener to be removed
      */

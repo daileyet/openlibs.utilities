@@ -5,10 +5,9 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
- * ClassName: NIOByteUtils </br>
- * date: Aug 7, 2018 1:53:27 PM </br>
+ * ClassName: NIOByteUtils <br>
+ * date: Aug 7, 2018 1:53:27 PM <br>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
  */
 public final class NIOByteUtils {
   private NIOByteUtils() {}
@@ -91,7 +90,7 @@ public final class NIOByteUtils {
 
   /**
    * 
-   * toStringTrim:remove last byte element is 0x00. </br>
+   * toStringTrim:remove last byte element is 0x00. <br>
    * 
    * @param vals byte array
    * @return String 
@@ -111,7 +110,7 @@ public final class NIOByteUtils {
 
   /**
    * 
-   * copyOf:copy of given byte array with fix length,and fill left space with 0x00. </br>
+   * copyOf:copy of given byte array with fix length,and fill left space with 0x00. <br>
    * 
    * @param src byte array need copy
    * @param length new byte array fix length

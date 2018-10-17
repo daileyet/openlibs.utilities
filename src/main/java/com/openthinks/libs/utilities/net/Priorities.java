@@ -1,12 +1,11 @@
 package com.openthinks.libs.utilities.net;
 
 /**
- * ClassName: Priorities <br/>
- * Function: represent the Priority, instead of integer number by manual<br/>
- * Reason: provider common usage for priority, use {@link Priorities#ordinal()} as final value <br/>
- * date: Jul 21, 2017 10:26:33 AM <br/>
+ * ClassName: Priorities <br>
+ * Function: represent the Priority, instead of integer number by manual<br>
+ * Reason: provider common usage for priority, use {@link Priorities#ordinal()} as final value <br>
+ * date: Jul 21, 2017 10:26:33 AM <br>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
  */
 public enum Priorities {
   // 0
@@ -26,7 +25,7 @@ public enum Priorities {
 
   /**
    * 
-   * isHigher: judge current instance priority is higher than other instance. <br/>
+   * isHigher: judge current instance priority is higher than other instance. <br>
    * 
    * @param otherPriority {@link Priorities}
    * @return true or false
@@ -37,7 +36,7 @@ public enum Priorities {
 
   /**
    * 
-   * isEqual:judge current instance priority same as other priority. <br/>
+   * isEqual:judge current instance priority same as other priority. <br>
    * 
    * @param otherPriority {@link Priorities}
    * @return true or false

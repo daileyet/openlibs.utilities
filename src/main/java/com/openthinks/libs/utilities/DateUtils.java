@@ -10,10 +10,9 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * ClassName: DateUtils </br>
- * date: Aug 7, 2018 9:30:44 AM </br>
+ * ClassName: DateUtils <br>
+ * date: Aug 7, 2018 9:30:44 AM <br>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
  * @since JDK 1.8
  */
 public class DateUtils {

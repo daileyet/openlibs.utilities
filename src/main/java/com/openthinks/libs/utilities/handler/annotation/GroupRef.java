@@ -14,7 +14,6 @@ import java.lang.annotation.Target;
  * Function: 指定所属的上级 {@link Handler}. <br>
  * date: May 31, 2018 2:57:37 PM <br>
  * 
- * @author dailey.dai@cn.bosch.com DAD2SZH
  * @since JDK 1.8
  */
 public @interface GroupRef {
@@ -31,7 +30,7 @@ public @interface GroupRef {
    * key:target parent mapped key. <br>
    * <b>Notice:</b>只有在 name不起作用时才会使用
    * 
-   * @return
+   * @return string key
    */
   String key() default Mapped.NULL;
 }
