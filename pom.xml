@@ -5,7 +5,7 @@
 	<groupId>com.openthinks.libs</groupId>
 	<artifactId>openlibs.utilities</artifactId>
 	<packaging>jar</packaging>
-	<version>1.2.2</version>
+	<version>1.2.2.1</version>
 
 	<name>utilities</name>
 	<description>A common utilities for other projects under domain com.openthinks.</description>

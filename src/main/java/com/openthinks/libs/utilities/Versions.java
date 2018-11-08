@@ -33,8 +33,15 @@ import com.openthinks.libs.utilities.version.VersionCenter;
  * @author dailey.yet@outlook.com
  *
  */
-@AppVersion("1.2.2")
+@AppVersion("1.2.2.1")
 public class Versions extends VersionCenter {
+	/**
+	 * @change
+	 *         <ul>
+	 *         <li>fix issue on com.openthinks.libs.utilities.json.support.JSONFinder for special token "\\u" and "\/" </li>
+	 *         </ul>
+	 */
+	String v_1_2_2_1;
 	/**
 	 * @change
 	 *         <ul>
