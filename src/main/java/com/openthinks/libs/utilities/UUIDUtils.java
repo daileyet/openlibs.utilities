@@ -31,4 +31,21 @@ public final class UUIDUtils {
     }
     return stringBuffer.toString();
   }
+  
+  /**
+   * 
+   * genUUID16:generate short UUID with 16 bytes. <br>
+   * 
+   * @return String short UUID which length is 16
+   */
+  public static String genUUID16() {
+	    StringBuffer stringBuffer = new StringBuffer();
+	    String uuid = UUID.randomUUID().toString().replace("-", "");
+	    for (int i = 0; i < 16; i++) {
+	      String str = uuid.substring(i * 2, i * 2 + 2);
+	      int strInteger = Integer.parseInt(str, 16);
+	      stringBuffer.append(chars[strInteger % 0x3E]);
+	    }
+	    return stringBuffer.toString();
+	  }
 }

@@ -24,8 +24,6 @@
 */
 package com.openthinks.libs.utilities.logger;
 
-import java.text.MessageFormat;
-
 /**
  * Simple process logger
  * 
@@ -36,19 +34,17 @@ public class ProcessLogger {
 	public static PLLevel currentLevel = PLLevel.DEBUG;
 	public static final PLLevel defaultLevel = PLLevel.INFO;
 	private static ImplManager implManager = null;
+	private static Impl impl = null;
 
+	@Deprecated
 	public static void setImplManager(ImplManager implManager) {
 		ProcessLogger.implManager = implManager;
 	}
 
 	public static ImplManager getImplManager() {
-		if (implManager == null)
-			implManager = new ImplManager() {
-				@Override
-				public Impl createImpl() {
-					return new ConsoleImpl();
-				}
-			};
+		if (implManager == null) {
+			implManager = RootLoggerManager.getInstance();
+		}
 		return implManager;
 	}
 
@@ -58,52 +54,60 @@ public class ProcessLogger {
 
 	//////////////////////////////////// PRIVATE
 	//////////////////////////////////// METHOD////////////////////////////////////////////////
-	private static void _trace(String pattern, Object... args) {
-		getImplManager().createImpl().action(PLLevel.TRACE, pattern, args);
+
+	private static Impl getImpl() {
+		if (impl == null) {
+			impl = getImplManager().createImpl();
+		}
+		return impl;
 	}
-	
+
+	private static void _trace(String pattern, Object... args) {
+		getImpl().action(PLLevel.TRACE, pattern, args);
+	}
+
 	private static void _debug(String pattern, Object... args) {
-		getImplManager().createImpl().action(PLLevel.DEBUG, pattern, args);
+		getImpl().action(PLLevel.DEBUG, pattern, args);
 	}
 
 	private static void _info(String pattern, Object... args) {
-		getImplManager().createImpl().action(PLLevel.INFO, pattern, args);
+		getImpl().action(PLLevel.INFO, pattern, args);
 	}
 
 	private static void _warn(String pattern, Object... args) {
-		getImplManager().createImpl().action(PLLevel.WARN, pattern, args);
+		getImpl().action(PLLevel.WARN, pattern, args);
 	}
 
 	private static void _error(String pattern, Object... args) {
-		getImplManager().createImpl().action(PLLevel.ERROR, pattern, args);
+		getImpl().action(PLLevel.ERROR, pattern, args);
 	}
 
 	private static void _fatal(String pattern, Object... args) {
-		getImplManager().createImpl().action(PLLevel.FATAL, pattern, args);
+		getImpl().action(PLLevel.FATAL, pattern, args);
 	}
 
 	private static void _trace(Exception... exs) {
-		getImplManager().createImpl().action(PLLevel.TRACE, exs);
+		getImpl().action(PLLevel.TRACE, exs);
 	}
-	
+
 	private static void _debug(Exception... exs) {
-		getImplManager().createImpl().action(PLLevel.DEBUG, exs);
+		getImpl().action(PLLevel.DEBUG, exs);
 	}
 
 	private static void _info(Exception... exs) {
-		getImplManager().createImpl().action(PLLevel.INFO, exs);
+		getImpl().action(PLLevel.INFO, exs);
 	}
 
 	private static void _warn(Exception... exs) {
-		getImplManager().createImpl().action(PLLevel.WARN, exs);
+		getImpl().action(PLLevel.WARN, exs);
 	}
 
 	private static void _error(Exception... exs) {
-		getImplManager().createImpl().action(PLLevel.ERROR, exs);
+		getImpl().action(PLLevel.ERROR, exs);
 	}
 
 	private static void _fatal(Exception... exs) {
-		getImplManager().createImpl().action(PLLevel.FATAL, exs);
+		getImpl().action(PLLevel.FATAL, exs);
 	}
 
 	//////////////////////////////// PUBLIC
@@ -139,7 +143,6 @@ public class ProcessLogger {
 			_trace(pattern, args);
 	}
 
-	
 	public static void debug(String pattern, Object... args) {
 		if (currentLevel().compareTo(PLLevel.DEBUG) >= 0)
 			_debug(pattern, args);
@@ -169,7 +172,7 @@ public class ProcessLogger {
 		if (currentLevel().compareTo(PLLevel.TRACE) >= 0)
 			_trace(exs);
 	}
-	
+
 	public static void debug(Exception... exs) {
 		if (currentLevel().compareTo(PLLevel.DEBUG) >= 0)
 			_debug(exs);
@@ -193,115 +196,6 @@ public class ProcessLogger {
 	public static void fatal(Exception... exs) {
 		if (currentLevel().compareTo(PLLevel.FATAL) >= 0)
 			_fatal(exs);
-	}
-	////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Process Logger level
-	 * 
-	 * @author dailey.yet@outlook.com
-	 *
-	 */
-	public enum PLLevel {
-		FATAL, ERROR, WARN, INFO, DEBUG,TRACE;
-
-		public static PLLevel build(String level) {
-			try {
-				return PLLevel.valueOf(level);
-			} catch (Exception e) {
-				return null;
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * @author dailey.yet@outlook.com
-	 *
-	 */
-	public static abstract class ImplManager {
-
-		/**
-		 * get the instance of {@link Impl}
-		 * 
-		 * @return Impl
-		 */
-		public abstract Impl createImpl();
-	}
-
-	/**
-	 * 
-	 * @author dailey.yet@outlook.com
-	 *
-	 */
-	public static interface Impl {
-
-		public void action(PLLevel level, String pattern, Object... arguments);
-
-		public void action(PLLevel level, Exception... exs);
-
-	}
-
-	private static class ConsoleImpl implements Impl {
-
-		@Override
-		public void action(PLLevel level, String pattern, Object... arguments) {
-			String msg = pattern;
-			switch (level) {
-			case FATAL:
-			case ERROR:
-				System.err.print(level.name() + "=>");
-				if (arguments != null && arguments.length > 0) {//FIX formatter error if arguments is empty
-					try {
-						msg = MessageFormat.format(pattern, arguments);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				System.err.print(msg);
-				break;
-			case WARN:
-			case INFO:
-			case DEBUG:
-			case TRACE:
-				System.out.print(level.name() + "=>");
-				if (arguments != null && arguments.length > 0) {//FIX formatter error if arguments is empty
-					try {
-						msg = MessageFormat.format(pattern, arguments);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				System.out.print(msg);
-			}
-			System.out.println();
-
-		}
-
-		@Override
-		public void action(PLLevel level, Exception... exs) {
-			Exception[] _exs = exs == null ? new Exception[0] : exs;
-			switch (level) {
-			case FATAL:
-			case ERROR:
-				System.err.println(level.name() + "=>");
-				for (Exception ex : _exs) {
-					ex.printStackTrace(System.err);
-				}
-				break;
-			case WARN:
-			case INFO:
-			case DEBUG:
-			case TRACE:
-				System.out.println(level.name() + "=>");
-				for (Exception ex : _exs) {
-					ex.printStackTrace(System.out);
-				}
-				break;
-			}
-			System.out.println();
-
-		}
 	}
 
 }

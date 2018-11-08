@@ -220,8 +220,23 @@ public class JSONFinder {
 				case 'b':
 					builder.append('\b');
 					break;
+				case 'f':
+					builder.append('\f');
+					break;
+				case JSONToken.ESCAPE:
+					builder.append('\\');
+					break;
+				case 'u':
+					builder.append("\\u");
+					break;
+				case '/':
+					builder.append("/");
+					break;
 				case JSONToken.DOUBLE_QUOTE:
 					builder.append(JSONToken.DOUBLE_QUOTE);
+					break;
+				case JSONToken.SINGLE_QUOTE:
+					builder.append(JSONToken.SINGLE_QUOTE);
 					break;
 				default:
 					throw new JSONParseException("unknown escape char : " + next);

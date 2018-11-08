@@ -28,19 +28,21 @@ public final class JSONConverters {
 	static final Map<Class<?>, JSONObjectConverter> cacheMap = new ConcurrentHashMap<>();
 	//////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////
-	//configure properties
+	// configure properties
 	static final String CONFIGURATION_FILE = "/converterConfig.properties";
 	static final String CONFIG_VAL_ITEM_TOKEN = ",";
 	static final String CONFIG_VAL_ITEM_MAP_TOKEN = ":";
-	
-	static{
+	// condition output token
+	static final String CONFIG_VAL_ITEM_CONDITION_TOKEN = "?";
+
+	static {
 		try {
 			ConfigureLoader.load(CONFIGURATION_FILE);
 		} catch (IOException e) {
 			ProcessLogger.fatal(e);
 		}
 	}// end of register
-	
+
 	public static void reload(String classPathResourceName) {
 		try {
 			ConfigureLoader.load(classPathResourceName);
@@ -54,11 +56,15 @@ public final class JSONConverters {
 	}
 
 	public static JSONObject perparedAndGet(final Object bizObj) {
+		if (bizObj == null)
+			return null;
 		JSONObjectConverter conveter = cacheMap.getOrDefault(bizObj.getClass(), DEFAULT_CONVETER);
 		return conveter.convert(bizObj);
 	}
 
 	public static JSONObject perparedAndGet(final Object bizObj, JSONObjectConverter defaultConverter) {
+		if (bizObj == null)
+			return null;
 		JSONObjectConverter conveter = cacheMap.getOrDefault(bizObj.getClass(), defaultConverter);
 		return conveter.convert(bizObj);
 	}
@@ -68,7 +74,7 @@ public final class JSONConverters {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
-	//default converter
+	// default converter
 	public static final JSONObjectConverter DEFAULT = (obj) -> {
 		Class<?> bizModelClazz = obj.getClass();
 		JSONObject jsonObj = JSON.object();
@@ -77,7 +83,8 @@ public final class JSONConverters {
 			String fieldName = fields[i].getName();
 			try {
 				PropertyDescriptor pd = ConfigureLoader.find(bizModelClazz, fieldName);
-				jsonObj.addProperty(fieldName, pd.getReadMethod().invoke(obj));
+				Object propertyVal = pd.getReadMethod().invoke(obj);
+				jsonObj.addProperty(fieldName, propertyVal);
 			} catch (IntrospectionException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException e) {
 				ProcessLogger.warn("Faile to load property {0} value for {1}:", obj, e);
@@ -85,7 +92,7 @@ public final class JSONConverters {
 		}
 		return jsonObj;
 	};
-	
+
 	public static final JSONObjectConverter DEFAULT_UNDER_LINE = (obj) -> {
 		Class<?> bizModelClazz = obj.getClass();
 		JSONObject jsonObj = JSON.object();
@@ -104,16 +111,16 @@ public final class JSONConverters {
 		return jsonObj;
 	};
 
-    volatile static JSONObjectConverter DEFAULT_CONVETER = DEFAULT;
-	
+	volatile static JSONObjectConverter DEFAULT_CONVETER = DEFAULT;
+
 	public synchronized static final void ativeDefaultConveterAsUnderline() {
 		DEFAULT_CONVETER = DEFAULT_UNDER_LINE;
 	}
-	
+
 	public synchronized static final void ativeDefaultConveterAsCamel() {
 		DEFAULT_CONVETER = DEFAULT;
 	}
-	
+
 	/**
 	 * 
 	 * 配置文件加载类，负责加载配置文件并初始化配置<BR>
@@ -127,6 +134,7 @@ public final class JSONConverters {
 	 * <li>json键名称与实体类对应的属性名之间用冒号:隔开
 	 * <li>多个项之间用逗号,隔开
 	 * <li>若属性名不写，则默认和json键名称同名
+	 * <li>json键名称前若有?则表示条件输出，当其值不为空时输出
 	 * 
 	 */
 	static class ConfigureLoader {
@@ -142,9 +150,10 @@ public final class JSONConverters {
 				String bizModelClazz = String.valueOf(key);
 				String cofigVal = props.getProperty(bizModelClazz);
 				try {
-					ConverterConfig.build(bizModelClazz).config(cofigVal);
+					ConverterConfig cc = ConverterConfig.build(bizModelClazz);
+					cc.config(cofigVal);
 				} catch (ClassNotFoundException e) {
-					ProcessLogger.warn("Faile to config JSONObjectConverter {0} for: {1}" ,bizModelClazz, e);
+					ProcessLogger.warn("Faile to config JSONObjectConverter {0} for: {1}", bizModelClazz, e);
 				}
 			});
 		}
@@ -167,7 +176,6 @@ public final class JSONConverters {
 			}
 			return pd;
 		}
-
 	}
 
 	/**
@@ -193,12 +201,18 @@ public final class JSONConverters {
 			Arrays.asList(configItemArray).forEach((item) -> {
 				ConfigItem ci = parse(item);
 				configItemList.add(ci);
+
 			});
 			Class<?> bizModelType = Class.forName(modelClazz);
 			register(bizModelType, (bizObj) -> {
 				JSONObject jsonObj = JSON.object();
 				configItemList.forEach((ci) -> {
-					jsonObj.addProperty(ci.jsonKey, getPropertyVal(bizObj, ci.propertyName));
+					Object propertyVal = getPropertyVal(bizObj, ci.propertyName);
+					if (ci.isCond) {
+						if (propertyVal != null)
+							jsonObj.addProperty(ci.jsonKey, propertyVal);
+					} else
+						jsonObj.addProperty(ci.jsonKey, propertyVal);
 				});
 				return jsonObj;
 			});
@@ -218,10 +232,15 @@ public final class JSONConverters {
 
 		private ConfigItem parse(String item) {
 			ConfigItem ci = new ConfigItem();
-			ci.setJsonKey(item);
-			ci.setPropertyName(item);
-			if (item.contains(CONFIG_VAL_ITEM_MAP_TOKEN)) {
-				String[] maps = item.split(CONFIG_VAL_ITEM_MAP_TOKEN);
+			String itemTemp = item == null ? item : item.trim();
+			if (itemTemp.startsWith(CONFIG_VAL_ITEM_CONDITION_TOKEN)) {
+				ci.isCond = true;
+				itemTemp = itemTemp.substring(1);
+			}
+			ci.setJsonKey(itemTemp);
+			ci.setPropertyName(itemTemp);
+			if (itemTemp.contains(CONFIG_VAL_ITEM_MAP_TOKEN)) {
+				String[] maps = itemTemp.split(CONFIG_VAL_ITEM_MAP_TOKEN);
 				ci.setJsonKey(maps[0]);
 				if (maps.length > 1)
 					ci.setPropertyName(maps[1]);
@@ -234,6 +253,7 @@ public final class JSONConverters {
 		class ConfigItem {
 			String jsonKey;
 			String propertyName;
+			boolean isCond = false;
 
 			public void setJsonKey(String jsonKey) {
 				this.jsonKey = StringUtils.trim(jsonKey);
@@ -241,6 +261,10 @@ public final class JSONConverters {
 
 			public void setPropertyName(String propertyName) {
 				this.propertyName = StringUtils.trim(propertyName);
+			}
+
+			public boolean isCond() {
+				return isCond;
 			}
 		}
 	}
