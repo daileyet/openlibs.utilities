@@ -39,6 +39,7 @@ public class Versions extends VersionCenter {
 	 * @change
 	 *         <ul>
 	 *         <li>fix issue on com.openthinks.libs.utilities.json.support.JSONFinder for special token "\\u" and "\/" </li>
+	 *         <li>enhance StringUtils</li>
 	 *         </ul>
 	 */
 	String v_1_2_2_1;
