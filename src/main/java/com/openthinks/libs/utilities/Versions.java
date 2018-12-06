@@ -40,6 +40,7 @@ public class Versions extends VersionCenter {
 	 *         <ul>
 	 *         <li>fix issue on com.openthinks.libs.utilities.json.support.JSONFinder for special token "\\u" and "\/" </li>
 	 *         <li>enhance StringUtils</li>
+	 *         <li>enhance com.openthinks.libs.utilities.json.JSONConverters, support condition token ?</li>
 	 *         </ul>
 	 */
 	String v_1_2_2_1;
