@@ -17,6 +17,14 @@ public final class JSONElement implements Valueable<Object> {
   public JSONElement(Object result) {
     this.result = result;
   }
+  
+  /**
+   * is null type
+   * @return true or false
+   */
+  public boolean isNull() {
+	  return this.result==null;
+  }
 
   /**
    * is {@link JSONArray} type

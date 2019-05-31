@@ -33,8 +33,7 @@ public final class JSON {
 	/**
 	 * create a instance of {@link JSONArray} with given collection of object
 	 * 
-	 * @param jsonObjects
-	 *            a collection of object
+	 * @param jsonObjects a collection of object
 	 * @return {@link JSONArray}
 	 */
 	public static final JSONArray array(final Collection<?> jsonObjects) {
@@ -53,8 +52,7 @@ public final class JSON {
 	/**
 	 * parse JSON string as {@link JSONElement}
 	 * 
-	 * @param jsonString
-	 *            JSON string
+	 * @param jsonString JSON string
 	 * @return {@link JSONElement}
 	 */
 	public static final JSONElement parse(String jsonString) {
@@ -75,8 +73,7 @@ public final class JSON {
 	/**
 	 * convert {@link JSONObject} as string
 	 * 
-	 * @param object
-	 *            {@link JSONObject}
+	 * @param object {@link JSONObject}
 	 * @return JSON string
 	 */
 	public static final String stringify(JSONObject object) {
@@ -91,7 +88,9 @@ public final class JSON {
 			String key = keyIter.next();
 			buffer.append(JSONToken.DOUBLE_QUOTE).append(key).append(JSONToken.DOUBLE_QUOTE).append(JSONToken.COLON);
 			JSONElement element = object.getPropertyAsElement(key);
-			if (element.isArray()) {
+			if (element.isNull()) {
+				buffer.append("null");
+			} else if (element.isArray()) {
 				buffer.append(stringify(element.asArray()));
 			} else if (element.isObject()) {
 				buffer.append(stringify(element.asObject()));
@@ -114,8 +113,7 @@ public final class JSON {
 	/**
 	 * convert {@link JSONArray} to string
 	 * 
-	 * @param array
-	 *            {@link JSONArray}
+	 * @param array {@link JSONArray}
 	 * @return JSON string
 	 */
 	public static final String stringify(JSONArray array) {
