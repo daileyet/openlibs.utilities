@@ -1,5 +1,8 @@
 # openlibs.utilities
+
+![Java CI with Maven](https://github.com/daileyet/openlibs.utilities/workflows/Java%20CI%20with%20Maven/badge.svg?branch=mvn-master)
 ![Maven Package](https://github.com/daileyet/openlibs.utilities/workflows/Maven%20Package/badge.svg?branch=mvn-master)
+
 ## Introduction
 The lib is java utilities for other projects under openlibs; it include and will include the following functions:
 * Condition checker
