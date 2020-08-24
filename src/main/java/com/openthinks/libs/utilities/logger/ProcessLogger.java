@@ -25,8 +25,8 @@
 package com.openthinks.libs.utilities.logger;
 
 /**
- * Simple process logger
- * 
+ * Simple process logger<br>
+ * please use {@link ProcessLogger2}
  * @author dailey.yet@outlook.com
  *
  */

@@ -11,7 +11,7 @@ public enum PLLevel {
 
 	public static PLLevel build(String level) {
 		try {
-			return PLLevel.valueOf(level);
+			return PLLevel.valueOf(level.toUpperCase());
 		} catch (Exception e) {
 			return null;
 		}

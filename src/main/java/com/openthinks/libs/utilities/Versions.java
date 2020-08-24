@@ -37,6 +37,8 @@ public class Versions extends VersionCenter {
    * @change
    *         <ul>
    *         <li>add demo package</li>
+   *         <li>enhance logger log level setting from system property</li>
+   *         <li>enhance logger with entry name and support customized style formatter</li>
    *         </ul>
    */
   String v_1_2_2_4;
