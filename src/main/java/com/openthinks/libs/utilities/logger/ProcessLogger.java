@@ -24,8 +24,11 @@
 */
 package com.openthinks.libs.utilities.logger;
 
+import java.text.MessageFormat;
+
 /**
  * Simple process logger
+ * 
  * @author dailey.yet@outlook.com
  *
  */
@@ -53,79 +56,80 @@ public class ProcessLogger {
 		return currentLevel == null ? defaultLevel : currentLevel;
 	}
 
-	public static void log(PLLevel plevel, String... msgs) {
+	////////////////////////////////////////////////////////////////////////////////////
+	private static void _debug(String pattern, Object... args) {
+		getImplManager().createImpl().action(PLLevel.INFO, pattern, args);
+	}
+
+	private static void _info(String pattern, Object... args) {
+		getImplManager().createImpl().action(PLLevel.INFO, pattern, args);
+	}
+
+	private static void _warn(String pattern, Object... args) {
+		getImplManager().createImpl().action(PLLevel.WARN, pattern, args);
+	}
+
+	private static void _error(String pattern, Object... args) {
+		getImplManager().createImpl().action(PLLevel.ERROR, pattern, args);
+	}
+
+	private static void _fatal(String pattern, Object... args) {
+		getImplManager().createImpl().action(PLLevel.FATAL, pattern, args);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+
+	public static void log(PLLevel plevel, String pattern, Object... args) {
 		switch (plevel) {
 		case DEBUG:
-			_debug(msgs);
+			debug(pattern, args);
 			break;
 		case INFO:
-			_info(msgs);
+			info(pattern, args);
 			break;
 		case WARN:
-			_warn(msgs);
+			warn(pattern, args);
 			break;
 		case ERROR:
-			_error(msgs);
+			error(pattern, args);
 			break;
 		case FATAL:
-			_fatal(msgs);
+			fatal(pattern, args);
 			break;
 		default:
 			break;
 		}
 	}
 
-	public static void debug(String... msgs) {
+	public static void debug(String pattern, Object... args) {
 		if (currentLevel().compareTo(PLLevel.DEBUG) >= 0)
-			_debug(msgs);
+			_debug(pattern, args);
 	}
 
-	public static void info(String... msgs) {
+	public static void info(String pattern, Object... args) {
 		if (currentLevel().compareTo(PLLevel.INFO) >= 0)
-			_info(msgs);
+			_info(pattern, args);
 	}
 
-	public static void warn(String... msgs) {
+	public static void warn(String pattern, Object... args) {
 		if (currentLevel().compareTo(PLLevel.WARN) >= 0)
-			_warn(msgs);
+			_warn(pattern, args);
 	}
 
-	public static void error(String... msgs) {
+	public static void error(String pattern, Object... args) {
 		if (currentLevel().compareTo(PLLevel.ERROR) >= 0)
-			_error(msgs);
+			_error(pattern, args);
 	}
 
-	public static void fatal(String... msgs) {
+	public static void fatal(String pattern, Object... args) {
 		if (currentLevel().compareTo(PLLevel.FATAL) >= 0)
-			_fatal(msgs);
+			_fatal(pattern, args);
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////
-
-	private static void _debug(String... msgs) {
-		getImplManager().createImpl().action(PLLevel.DEBUG, msgs);
-	}
-
-	private static void _info(String... msgs) {
-		getImplManager().createImpl().action(PLLevel.INFO, msgs);
-	}
-
-	private static void _warn(String... msgs) {
-		getImplManager().createImpl().action(PLLevel.WARN, msgs);
-	}
-
-	private static void _error(String... msgs) {
-		getImplManager().createImpl().action(PLLevel.ERROR, msgs);
-	}
-
-	private static void _fatal(String... msgs) {
-		getImplManager().createImpl().action(PLLevel.FATAL, msgs);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Process Logger level
+	 * 
 	 * @author dailey.yet@outlook.com
 	 *
 	 */
@@ -150,6 +154,7 @@ public class ProcessLogger {
 
 		/**
 		 * get the instance of {@link Impl}
+		 * 
 		 * @return Impl
 		 */
 		public abstract Impl createImpl();
@@ -161,38 +166,41 @@ public class ProcessLogger {
 	 *
 	 */
 	public static interface Impl {
-		/**
-		 * log action
-		 * @param level PLLevel
-		 * @param msgs String[]
-		 */
-		public void action(PLLevel level, String... msgs);
+
+		public void action(PLLevel level, String pattern, Object... arguments);
+
 	}
 
 	private static class ConsoleImpl implements Impl {
 
 		@Override
-		public void action(PLLevel level, String... msgs) {
+		public void action(PLLevel level, String pattern, Object... arguments) {
+			String msg = "";
 			switch (level) {
 			case FATAL:
 			case ERROR:
 				System.err.print(level.name() + "=>");
-				for (String msg : msgs) {
-					System.err.print(msg);
-					System.err.print("  ");
+				try {
+					msg = MessageFormat.format(pattern, arguments);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+				System.err.print(msg);
 				break;
 			case WARN:
 			case INFO:
 			case DEBUG:
 				System.out.print(level.name() + "=>");
-				for (String msg : msgs) {
-					System.out.print(msg);
-					System.out.print("  ");
+				try {
+					msg = MessageFormat.format(pattern, arguments);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				break;
+				System.out.print(msg);
 			}
 			System.out.println();
+
 		}
 	}
+
 }

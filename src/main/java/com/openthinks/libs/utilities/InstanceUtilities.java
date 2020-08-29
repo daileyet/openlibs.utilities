@@ -27,13 +27,54 @@ package com.openthinks.libs.utilities;
 
 import java.lang.reflect.Constructor;
 
+import com.openthinks.libs.utilities.logger.ProcessLogger;
+
 /**
  * Helper for create a instance of the given type and parameters
+ * 
  * @author dailey.yet@outlook.com
  *
  */
-public class InstanceUtilities {
+public final class InstanceUtilities {
 
+	/**
+	 * 
+	 * create:instantiate a object by its super interface or class. 
+	 * 
+	 * <pre>
+	 * <code>
+	 * interface A{ public void test();}
+	 * 
+	 * class AImpl implements A{
+	 * 	public void test(){
+	 * 		System.out.println("Implementation!!!");
+	 * 	};
+	 * }
+	 * 
+	 * class Client{
+	 * 
+	 * public void static main(String[] args){
+	 * 		InstanceWrapper&lt;AImpl&gt; wrapper = InstanceWrapper.build(AImpl.class);
+	 * 		A aInstance = InstanceUtilities.create(A.class,wrapper);
+	 * 
+	 * 	}
+	 * 
+	 * }
+	 * </code>
+	 * </pre>
+	 * 
+	 * @param <T>
+	 *            search interface or class type
+	 * @param <E>
+	 *            implementation or child for search interface or class type
+	 * @param searchType
+	 *            search interface or class
+	 * @param instancewrapper
+	 *            {@link InstanceWrapper}
+	 * @param args
+	 *            array of object to as constructor parameters
+	 * @return instance of implementation of search interface or class type
+	 */
 	@SuppressWarnings("unchecked")
 	public static <T, E extends T> T create(final Class<T> searchType, InstanceWrapper<E> instancewrapper,
 			Object... args) {
@@ -48,9 +89,9 @@ public class InstanceUtilities {
 					try {
 						Class<?>[] paramTypes = c.getParameterTypes();
 						if (instancewrapper.isMember) {
-							if (paramTypes.length == 1) {
-								if (args == null)
-									args = new Object[0];
+							if (args == null)
+								args = new Object[0];
+							if (paramTypes.length == (1 + args.length)) {
 								Object[] tmp = new Object[args.length + 1];
 								tmp[0] = instancewrapper.owner;
 								System.arraycopy(args, 0, tmp, 1, args.length);
@@ -63,6 +104,7 @@ public class InstanceUtilities {
 						object = c.newInstance(args);
 						break;
 					} catch (Exception e) {
+						ProcessLogger.warn("Get exception when instance Class:" + searchType, e);
 						continue;
 					}
 				}
@@ -79,24 +121,41 @@ public class InstanceUtilities {
 		/**
 		 * 
 		 * @param instanceType
-		 *            Class<E> the class type of instancing object
+		 *            the class type of instancing object
 		 * @param owner
-		 *            Object the instance object class type define in owner, it
-		 *            means the instance class is a member class.
+		 *            the instance object class type define in owner, it means the
+		 *            instance class is a member class, if not a member class, let is as
+		 *            empty or null.
 		 */
-		public InstanceWrapper(Class<E> instanceType, Object owner) {
+		InstanceWrapper(Class<E> instanceType, Object owner) {
 			super();
 			this.instanceType = instanceType;
 			if (this.instanceType != null)
 				this.isMember = this.instanceType.isMemberClass();
+			if (this.isMember) {
+				Checker.require(owner).notNull("Member class cannot be separate from its own class instance");
+			}
 			this.owner = owner;
 		}
 
+		/**
+		 * 
+		 * build: create a instance of {@link InstanceWrapper} <br>
+		 * 
+		 * @param <T>
+		 *            class type
+		 * @param instanceType
+		 *            Class which need to be instantiated really
+		 * @param objects
+		 *            array of own object, if instanceType is not member class,this
+		 *            parameter can be empty; otherwise, this parameter cannot be null,
+		 * @return instance of {@link InstanceWrapper}
+		 */
 		public static <T> InstanceWrapper<T> build(Class<T> instanceType, Object... objects) {
 			Object owner = null;
 			if (objects != null && objects.length > 0)
 				owner = objects[0];
-			return new InstanceWrapper<T>(instanceType, owner);
+			return new InstanceWrapper<>(instanceType, owner);
 		}
 
 	}

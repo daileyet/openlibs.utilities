@@ -41,7 +41,11 @@ public class CommonUtilities {
 	 * @return String
 	 */
 	public static String getCurrentInvokerMethod() {
-		return Thread.currentThread().getStackTrace()[2].getMethodName();
+		try {
+			return Thread.currentThread().getStackTrace()[2].getMethodName();
+		} catch (Exception e) {
+			return "";
+		}
 	}
 
 }

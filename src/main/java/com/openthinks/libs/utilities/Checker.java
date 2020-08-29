@@ -32,6 +32,7 @@ import java.util.Arrays;
 import com.openthinks.libs.utilities.exception.CheckerNoPassException;
 
 /**
+ * Validation of common check
  * @author dailey dai
  *
  */
@@ -62,6 +63,14 @@ public class Checker {
 		public void notNull(String... args) {
 
 			if (requireObject == null) {
+				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),
+						CommonUtilities.toString4Array(args));
+			}
+		}
+
+		public void notEmpty(String... args) {
+			notNull(args);
+			if ("".equals(requireObject)) {
 				throw new CheckerNoPassException(CommonUtilities.getCurrentInvokerMethod(),
 						CommonUtilities.toString4Array(args));
 			}
