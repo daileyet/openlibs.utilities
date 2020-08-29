@@ -174,6 +174,11 @@ public final class Converter {
 			Object target = Array.newInstance(clazz, length);
 			for (int i = 0; i < length; i++) {
 				Object origianlElement = ((List<?>) source).get(i);
+				if(clazz.isAssignableFrom(origianlElement.getClass())) {
+				  // ignore
+				}else {// convert element to target type
+				  origianlElement = Converter.source(origianlElement).convertToSingle(clazz);
+				}
 				Array.set(target, i, origianlElement);
 			}
 			return (T[]) target;

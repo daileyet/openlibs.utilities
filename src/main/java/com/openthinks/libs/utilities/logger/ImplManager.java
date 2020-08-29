@@ -6,15 +6,19 @@ package com.openthinks.libs.utilities.logger;
  *
  */
 public abstract class ImplManager {
+  /**
+   * get the instance of {@link Impl}
+   * 
+   * @return Impl
+   */
+  public abstract Impl createImpl();
 
-	/**
-	 * get the instance of {@link Impl}
-	 * 
-	 * @return Impl
-	 */
-	public abstract Impl createImpl();
-	
-	public PLLevel entryLevel() {
-		return PLLevel.INFO;
-	}
+  /**
+   * fetch log level<BR>
+   * @return {@link PLLevel}
+   * @see Loggers#getLogLevel()
+   */
+  public PLLevel entryLevel() {
+    return Loggers.getLogLevel();
+  }
 }

@@ -30,8 +30,18 @@ import com.openthinks.libs.utilities.version.VersionCenter;
  * @author dailey.yet@outlook.com
  *
  */
-@AppVersion("1.2.2.3")
+@AppVersion("1.2.2.4")
 public class Versions extends VersionCenter {
+  /**
+   * 
+   * @change
+   *         <ul>
+   *         <li>add demo package</li>
+   *         <li>enhance logger log level setting from system property</li>
+   *         <li>enhance logger with entry name and support customized style formatter</li>
+   *         </ul>
+   */
+  String v_1_2_2_4;
   /**
    * 
    * @change
