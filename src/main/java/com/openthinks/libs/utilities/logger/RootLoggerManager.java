@@ -11,74 +11,82 @@ import java.util.stream.Collectors;
 
 /**
  * Root Logger ImplManager
+ * 
  * @author dailey.yet@outlook.com
  *
  */
 public final class RootLoggerManager extends ImplManager {
 
-	private static final RootLoggerManager INSTANCE = new RootLoggerManager();
+  private static final RootLoggerManager INSTANCE = new RootLoggerManager();
 
-	public static RootLoggerManager getInstance() {
-		return INSTANCE;
-	}
+  public static RootLoggerManager getInstance() {
+    return INSTANCE;
+  }
 
-	private RootLoggerManager() {
-	}
+  private RootLoggerManager() {}
 
-	private final Map<String, Impl> implMap = new ConcurrentHashMap<>();
-	
-	public boolean isEmpty() {
-		return implMap.isEmpty();
-	}
+  private final Map<String, Impl> implMap = new ConcurrentHashMap<>();
 
-	public synchronized boolean addLoggerImpl(String name, Impl loggerImpl) {
-		if (loggerImpl != null) {
-			implMap.put(name, loggerImpl);
-			return true;
-		}
-		return false;
-	}
+  public boolean isEmpty() {
+    return implMap.isEmpty();
+  }
 
-	public synchronized boolean removeLoggerImpl(Impl loggerImpl) {
-		if (loggerImpl == null)
-			return false;
-		Set<Entry<String, Impl>> hitSet = implMap.entrySet().stream().filter(entry -> entry.getValue() == loggerImpl)
-				.collect(Collectors.toSet());
-		if (hitSet.isEmpty())
-			return false;
-		for (Entry<String, Impl> e : hitSet) {
-			implMap.remove(e.getKey());
-		}
-		return true;
-	}
+  public synchronized boolean addLoggerImpl(String name, Impl loggerImpl) {
+    if (loggerImpl != null) {
+      implMap.put(name, loggerImpl);
+      return true;
+    }
+    return false;
+  }
 
-	public synchronized boolean removeLoggerImpl(String name) {
-		if (name == null)
-			return false;
-		return implMap.remove(name) != null;
-	}
+  public synchronized boolean removeLoggerImpl(Impl loggerImpl) {
+    if (loggerImpl == null)
+      return false;
+    Set<Entry<String, Impl>> hitSet = implMap.entrySet().stream()
+        .filter(entry -> entry.getValue() == loggerImpl).collect(Collectors.toSet());
+    if (hitSet.isEmpty())
+      return false;
+    for (Entry<String, Impl> e : hitSet) {
+      implMap.remove(e.getKey());
+    }
+    return true;
+  }
 
-	@Override
-	public Impl createImpl() {
-		return new InternalImpl();
-	}
+  public synchronized boolean removeLoggerImpl(String name) {
+    if (name == null)
+      return false;
+    return implMap.remove(name) != null;
+  }
 
-	final class InternalImpl implements Impl {
+  @Override
+  public Impl createImpl() {
+    return new InternalImpl();
+  }
 
-		@Override
-		public void action(PLLevel level, String pattern, Object... arguments) {
-			implMap.forEach((k, v) -> {
-				v.action(level, pattern, arguments);
-			});
-		}
+  final class InternalImpl extends ConsoleImpl {
 
-		@Override
-		public void action(PLLevel level, Exception... exs) {
-			implMap.forEach((k, v) -> {
-				v.action(level, exs);
-			});
-		}
+    @Override
+    public void action(PLLevel level, String pattern, Object... arguments) {
+      if (implMap.isEmpty()) {
+        super.action(level, pattern, arguments);
+      } else {
+        implMap.forEach((k, v) -> {
+          v.action(level, pattern, arguments);
+        });
+      }
+    }
 
-	}
+    @Override
+    public void action(PLLevel level, Exception... exs) {
+      if (implMap.isEmpty()) {
+        super.action(level, exs);
+      } else {
+        implMap.forEach((k, v) -> {
+          v.action(level, exs);
+        });
+      }
+    }
+
+  }
 
 }
