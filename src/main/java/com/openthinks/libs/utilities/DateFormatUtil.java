@@ -56,7 +56,7 @@ public final class DateFormatUtil {
   }
 
   public static final String formatNow(String pattern) {
-    return getDateFormat(pattern).format(DateUtils.now());
+    return getDateFormat(pattern).format(new Date());
   }
 
   public static final String format(String pattern, Date date) {
