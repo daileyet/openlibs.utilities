@@ -1,10 +1,6 @@
 package com.openthinks.libs.utilities;
 
-import java.time.Clock;
-import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.temporal.TemporalUnit;
 import java.util.Date;
 import java.util.TimeZone;
@@ -17,82 +13,50 @@ import java.util.TimeZone;
  */
 public class DateUtils {
 
-  private static String tz = "Asia/Shanghai";
-  private static TimeZone timeZone;
-  private static ZoneId zoneId;
+	private static String tz = "Asia/Shanghai";
+	private static TimeZone timeZone;
 
-  static {
-    timeZone = TimeZone.getTimeZone(tz);
-    zoneId = timeZone.toZoneId();
-  }
+	static {
+		timeZone = TimeZone.getTimeZone(tz);
+	}
 
-  protected DateUtils() {}
+	protected DateUtils() {
+	}
 
-  public static final ZoneId getZoneId() {
-    return zoneId;
-  }
+	public static final TimeZone getTimeZone() {
+		return timeZone;
+	}
 
-  public static final TimeZone getTimeZone() {
-    return timeZone;
-  }
+	public static Date now() {
+		return new Date();
+	}
 
-  public static Date now() {
-    return Date.from(Instant.now(Clock.system(zoneId)));
-  }
+	public static Instant instantPlus(Instant target, long amountToAdd, TemporalUnit unit) {
+		return target.plus(amountToAdd, unit);
+	}
 
-  public static Instant nowInstant() {
-    return Instant.now(Clock.system(zoneId));
-  }
+	public static Instant instantMinus(Instant target, long amountToSubtract, TemporalUnit unit) {
+		return target.minus(amountToSubtract, unit);
+	}
 
-  public static Instant nowInstantPlus(long amountToAdd, TemporalUnit unit) {
-    return nowInstant().plus(amountToAdd, unit);
-  }
+	public static Date offset(Date date, long millseconds) {
+		date.setTime(date.getTime() + millseconds);
+		return date;
+	}
 
-  public static Instant instantPlus(Instant target, long amountToAdd, TemporalUnit unit) {
-    return target.plus(amountToAdd, unit);
-  }
+	public static Date offset(long millseconds) {
+		return offset(now(), millseconds);
+	}
 
-  public static Instant nowInstantMinus(long amountToSubtract, TemporalUnit unit) {
-    return nowInstant().minus(amountToSubtract, unit);
-  }
+	public final static long systemUpMillseconds() {
+		return System.nanoTime() / 1000000;
+	}
 
-  public static Instant instantMinus(Instant target, long amountToSubtract, TemporalUnit unit) {
-    return target.minus(amountToSubtract, unit);
-  }
+	public static long currentTimeMillis() {
+		return System.currentTimeMillis();
+	}
 
-  public static Date offset(Date date, long millseconds) {
-    date.setTime(date.getTime() + millseconds);
-    return date;
-  }
-
-  public static Date offset(long millseconds) {
-    return offset(now(), millseconds);
-  }
-
-  public static LocalDateTime current() {
-    return LocalDateTime.now(zoneId);
-  }
-
-  public final static long systemUpMillseconds() {
-    return System.nanoTime() / 1000000;
-  }
-
-  public static long currentTimeMillis() {
-    return Instant.now(Clock.system(zoneId)).toEpochMilli();
-  }
-
-  public static Instant toInstant(long time) {
-    return Instant.ofEpochMilli(time);
-  }
-
-  public static LocalDateTime toLocalDateTime(long time) {
-    return LocalDateTime.ofInstant(toInstant(time), getZoneId());
-  }
-
-  public static Duration between(long firstTime, long secondTime) {
-    LocalDateTime first = toLocalDateTime(firstTime);
-    LocalDateTime second = toLocalDateTime(secondTime);
-    return Duration.between(first, second);
-  }
-
+	public static Instant toInstant(long time) {
+		return Instant.ofEpochMilli(time);
+	}
 }
